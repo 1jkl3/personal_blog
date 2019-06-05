@@ -1,0 +1,182 @@
+body{
+	margin: 0px;
+	padding: 0px;
+	background-color: rgb(244,244,244);	
+}
+
+.box{
+	width: 1200px;
+	height:auto;
+	background-color: rgb(244,244,244);	
+	margin: auto;
+	margin-top: 20px;
+}
+header {
+	width: 100%;
+	height: 43px;
+	background: -webkit-gradient(linear, 78% 100%, 78% 41%, from(#EFEEEC), to(#fff));
+	box-shadow: #d0c9c0 2px 2px 3px
+}
+
+header nav {
+	margin: 0 auto;
+	width: 920px;
+	height: 100%;
+	text-align: center
+}
+
+header nav ul li {
+	line-height: 43px;
+	display: block
+}
+
+.hander_a {
+	color: #484848;
+	float: left;
+	padding: 0 20px;
+	margin-right: 2px;
+	transform: skew(-20deg);
+	-moz-transform: skew(-20deg);
+	-o-transform: skew(-20deg)
+}
+.loginandregist{
+	float: left;
+	width: 60px;
+	height: 43px;
+	line-height: 43px;
+	margin-left: 20px;
+}
+.handler_two{
+	margin-top: 10px;
+	width: 100%;
+	height: 351px;
+}
+.active{
+	float: left;
+	width: 8%;
+	height: 510px;
+	background-color: rgb(255,255,255);
+}
+.active_smo{
+	float: left;
+	width: 1%;
+	height: 100%;
+	background: rgb(244,244,244);
+}
+.lunbo{
+	float: left;
+	width: 60%;
+	height: 351px;
+	margin-left: 12px;
+}
+.lunbo img{
+	width: 100%;
+	height: 100%;
+}
+.auot_kong{
+	float: left;
+	width: 1%;
+	height: 100%;
+	background: rgb(244,244,244);
+}
+.riqi{
+	position: relative;
+	float: left;
+	margin-left: 12px;
+	width: 30%;
+	height: 500px;
+	background-color: rgb(244,244,244);
+}
+.lunbo_smo{
+	width: 100%;
+	height: 200px;
+}
+.lunbo_smo img{
+	width: 100%;
+	height: 100%;
+}
+.right_box{
+	width: 100%;
+	height: auto;
+	background-color: rgb(255,255,255);
+}
+.Writing_blog{
+	width: 140px;
+	height: 100%;
+	line-height: 43px;
+	float: left;
+}
+.Writing_blog a{
+	width: 26px;height: 25px;
+}
+.Writing_blog #li_on_1 a:hover{
+	color: #1afa29;
+}
+.Writing_blog .onColor:hover{
+	color: rgb(77,133,168);
+}
+.active ul{
+	width: 100%;
+	height: 100%;
+}
+.active ul li{
+	width: 100%;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	margin-bottom: 1px;
+}
+.active_v{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.hhhand{
+	width: 1400px;
+	height: 100%;
+	margin: auto;
+}
+.right_box_box{
+	width: 100%;
+	height: 100px;
+	background: red;
+}
+.active_v_a{
+	background: red;
+	color: white;
+}
+.active_v_b{
+	background: red;
+	color: white;
+}
+.hander_a_a{
+	color: #fff;
+	background: #f16e50;
+}
+.hander_a_b{
+	color: #fff;
+	background: #f16e50;
+}
+.UL_on{
+	/*position: relative;*/
+	/*left: 75px;*/
+	/*width: 100px;*/
+	/*display: none;*/
+	width: 100%;
+	background: white;
+	text-align: center;
+}
+.UL_on li{
+	float: left;
+	width: 50%;
+}
+.dropdown-menu li{
+	width: 120%;
+	background: white;
+	display: none;
+}
+.dropdown-menu li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+}

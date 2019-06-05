@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <title>后台登录</title>
+    <meta name="author" content="DeathGhost" />
+    <link rel="stylesheet" type="text/css" th:href="@{blog/MySign_in/css/dome.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{blog/layui/layer/mobile/need/layer.css}" />
+    <link rel="stylesheet" th:href="@{blog/layui/css/layui.css}"/>
+    <style>
+        body {
+            height: 100%;
+            background: #16a085;
+            overflow: hidden;
+        }
+        canvas {
+            z-index: -1;
+            position: absolute;
+        }
+    </style>
+    <script type="text/javascript" th:src="@{blog/MySign_in/js/jquery-3.1.1.js}"></script>
+    <script type="text/javascript" th:src="@{blog/layui/layer/layer.js}"></script>
+    <script type="text/javascript" th:src="@{blog/MySign_in/js/demojs2.js}"></script>
+    <script type="text/javascript" th:src="@{blog/MySign_in/js/demojs.js}"></script>
+    <script type="text/javascript" th:src="@{blog/MySign_in/js/jquery.cookie.js}"></script>
+    <script>
+        $(document).ready(function() {
+            //粒子背景特效
+            $('body').particleground({
+                dotColor: '#5cbdaa',
+                lineColor: '#5cbdaa'
+            });
+            //验证码
+            createCode();
+
+            $.cookie("zhanghao",$(".login_txtbx").val(),{ expires: 7});
+            //测试提交，对接程序删除即可
+            $(".submit_btn").click(function() {
+                // alert($.cookie("zhanghao"))
+                // alert($("#J_down").css("placeholder"))
+                alert($("#J_down").attr("placeholder"))
+                if($("input[name='username_login']").val()==""||$("input[name='password_login']").val()){
+                layer.msg("请输入用户名密码")
+            }
+                if($("#J_down").attr("placeholder")=="验证码通过"){
+                    alert(111)
+                        $.ajax({
+                            type: "post",
+                            url: "/login_in",
+                            data: {"username":$("input[name='username_login']").val(),
+                                "password":$("input[name='password_login']").val()},
+                            success:function (data) {
+                                if(data=="登陆成功"){
+                                    layer.msg(data)
+                                    location.href="login"
+                                }else {
+                                    layer.msg(data)
+                                }
+
+                            }
+                        })
+                }else if($("#J_down").attr("placeholder")=="验证码错误"){
+                    layer.msg('验证码错误');
+                }else{
+                    layer.msg('您未验证码核验');
+                }
+            });
+            // //验证
+            // $(".ver_btn").click(function(){
+            //     if($("#J_down").attr("placeholder")=="验证码通过"){
+            //         layer.msg('验证码通过');
+            //     }else if($("#J_down").attr("placeholder")=="验证码错误"){
+            //         layer.msg('验证码错误');
+            //     }
+            // })
+            // //账号判断
+            // if($(".user_icon>.login_txtbx").val()==""){
+            //     layer.msg('账号不能为空');
+            // }else if($(".pwd_icon>.login_txtbx").val()==""){
+            //     layer.msg('密码不能为空');
+            // }
+            // $(".user_icon>.login_txtbx").change(function(){
+            //     if($(this).val()==""||$(this).val()==null)
+            //         layer.msg('账号不能为空');
+            // })
+            // //密码判断
+            // $(".pwd_icon>.login_txtbx").change(function(){
+            //     if($(this).val()==""||$(this).val()==null)
+            //         layer.msg('密码不能为空');
+            // })
+        });
+    </script>
+</head>
+
+<body>
+<dl class="admin_login">
+    <dt>
+        <strong>站点后台管理系统</strong>
+        <em>Management System</em>
+    </dt>
+    <div class="box_div">
+        <dd class="user_icon">
+            <input type="text" name="username_login" placeholder="账号" class="login_txtbx" />
+        </dd>
+        <dd class="pwd_icon">
+            <input type="password" name="password_login" placeholder="密码" class="login_txtbx" />
+        </dd>
+        <dd class="val_icon">
+            <div class="checkcode">
+                <input type="text" id="J_down" placeholder="验证码" maxlength="4" class="login_txtbx">
+                <canvas class="J_codeimg" id="myCanvas" onclick="createCode()">对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
+            </div>
+            <input type="button" value="验证码核验" class="ver_btn" onClick="validate();">
+        </dd>
+        <dd style="height: 25px;line-height: 26px;color: #06c1ae;">
+            <input id="pass_out" type="checkbox" value="记住密码" /><label for="pass_out" class="tab1">记住密码</label>
+        </dd>
+        <dd>
+            <input type="button" value="立即登陆" class="submit_btn" />
+        </dd>
+        <dd class="wangji">
+            <a href="#">忘记密码?</a>
+            <a href="#" id="to_register" style="margin-left: 170px;">用户注册</a>
+        </dd>
+    </div>
+    <dl class="admin_regist">
+        <dd class="user_register">
+            <input type="text" name="user_ID" placeholder="账号" class="login_txtbx_register" />
+        </dd>
+        <dd class="pwd_register">
+            <input type="password" name="pass_ID" placeholder="密码" class="login_txtbx_register" />
+        </dd>
+        <dd class="pwd_register">
+            <input type="password" name="passS_ID" placeholder="再次输入密码密码" class="login_txtbx_register" />
+        </dd>
+        <dd class="Emil_register">
+            <input type="text" placeholder="QQ邮箱" name="emil_up" class="login_txtbx_register" />
+        </dd>
+        <dd class="phone_register">
+            <input type="text" placeholder="手机号码" name="phone_num" class="login_txtbx_register" />
+        </dd>
+        <dd class="auth_code_div">
+            <input type="text" placeholder="请输入验证码" name="auth_code" class="login_auth_coder"/>
+            <button class="layui-btn layui-btn-radius" style="width: 70px;" id="send_up">发送</button>
+        </dd>
+        <dd>
+            <input type="button" id="login_on" value="立即注册" class="regist_button_my" />
+        </dd>
+        <dd>
+            <a href="#" style="width: 50px; height: 40px;position: relative;left: -120px;top: 10px;"><img id="to_login" th:src="@{blog/MySign_in/img/tou1.png}" style="width: 50px; height: 40px;"/></a>
+        </dd>
+    </dl>
+</dl>
+<script>
+    $(function(){
+        $("#to_register").click(function(){
+            $(".admin_regist").css("display","block");
+            $(".box_div").css("display","none")
+        })
+        $("#to_login").click(function(){
+            $(".admin_regist").css("display","none");
+            $(".box_div").css("display","block")
+        })
+        //注册验证接口
+        var reg=/[a-zA-Z]\d{3,15}/;
+        var reg2=/^[a-zA-Z0-9]{4,10}$/;
+        var reg3=/^\w+@qq+(\.[a-zA-Z]{2,3}){1,2}$/;
+        var reg4=/^[1][3,4,5,7,8][0-9]{9}$/;
+        $("#login_on").click(function () {
+            if($("input[name='user_ID']").val().trim()==""||$("input[name='user_ID']").val().trim()==null){
+                layer.msg("账号不能为空")
+            }else if($("input[name='pass_ID']").val().trim()==""||$("input[name='pass_ID']").val().trim()==null){
+                layer.msg("密码不能为空")
+            }else if($("input[name='passS_ID']").val().trim()==""||$("input[name='passS_ID']").val().trim()==null){
+                layer.msg("再次输入密码不能为空")
+            }else if($("input[name='emil_up']").val().trim()==""||$("input[name='emil_up']").val().trim()==null){
+                layer.msg("邮箱不能为空")
+            }else if($("input[name='phone_num']").val().trim()==""||$("input[name='phone_num']").val().trim()==null){
+                layer.msg("手机号不能为空")
+            }else if(!reg.test($("input[name='user_ID']").val().trim())){
+                layer.msg("账号格式错误,请输入3-15位的字母或数字")
+            }else if(!reg2.test($("input[name='pass_ID']").val().trim())){
+                layer.msg("密码格式错误,请输入4-10位的字母或数字")
+            }else if($("input[name='pass_ID']").val().trim()!=$("input[name='passS_ID']").val().trim()){
+                layer.msg("两次密码不一致")
+            }else if(!reg3.test($("input[name='emil_up']").val().trim())){
+                layer.msg("邮箱格式错误,请输入正确的QQ邮箱格式 列如:132****@qq.com")
+            }else if(!reg4.test($("input[name='phone_num']").val().trim())){
+                layer.msg("手机号格式错误,请输入正确的号码格式")
+            }else{
+                var MyBlog_users={"username": $("input[name='user_ID']").val(),
+                    "password":$("input[name='pass_ID']").val(),
+                    "emil_num":$("input[name='emil_up']").val(),
+                    "phone":$("input[name='phone_num']").val(),
+                    "code_ma":$("input[name='auth_code']").val()
+                     };
+                $.ajax({
+                    type: "post",
+                    url: "login_up",
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify(MyBlog_users),
+                    success:function (data) {
+                        layer.msg(data)
+                        $("input[name='user_ID']").val(null)
+                        $("input[name='pass_ID']").val(null)
+                        $("input[name='passS_ID']").val(null)
+                        $("input[name='emil_up']").val(null)
+                        $("input[name='phone_num']").val(null)
+                        $("input[name='auth_code']").val(null)
+                    }
+                })
+            }
+        })
+        //邮箱发送接口
+        var a=60;
+        var time;
+        $("#send_up").click(function(){
+            $(this).attr("class","layui-btn layui-btn-disabled layui-btn-radius");
+            $(this).attr("disabled",true)
+                $.ajax({
+                    type:"post",
+                    url:"Email_up",
+                    data:{"emilnum":$("input[name='emil_up']").val()},
+                    success:function (data) {
+                        layer.msg(data)
+                    },
+                    error:function (data) {
+                        layer.msg("发送失败")
+                    }
+                });
+            time=setInterval(function(){
+                a--;
+                $("#send_up").text("发送"+a)
+                if(a<=0){
+                    $("#send_up").text("发送")
+                    $("#send_up").attr("class","layui-btn layui-btn-radius");
+                    clearInterval(time)
+                    a=60
+                    $("#send_up").attr("disabled",false)
+                }
+            },1000);
+        })
+    })
+
+</script>
+</body>
+</html>

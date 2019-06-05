@@ -1,0 +1,21 @@
+package com.zuiye;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
+
+public class Mycopy{
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		LineNumberReader lnr=new LineNumberReader(new FileReader("Test.txt"));
+		String c="";
+		String a="public";
+		while((c=lnr.readLine())!=null) {
+			if(c.indexOf(a)!=-1) {
+				System.out.println(lnr.getLineNumber()+":"+c);
+			}
+		}
+	}
+
+}
