@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/html">
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
@@ -8,32 +8,7 @@
 	<script type="text/javascript" th:src="@{blog/MySign_in/js/jquery-3.1.1.js}"></script>
 	<script type="text/javascript" th:src="@{blog/layui/layui.js}"></script>
 	<link rel="stylesheet" th:href="@{blog/myBlogs/css/Global_style.css}" />
-<!--	<link rel="stylesheet" th:href="@{blog/bootStrap/css/bootstrap.css}"/>-->
 	<script>
-//		layui.use('flow', function() {
-//					var flow = layui.flow;
-//
-//					flow.load({
-//						elem: '#LAY_demo1' //流加载容器
-//							,
-//						scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
-//							,
-//						done: function(page, next) { //执行下一页的回调
-//
-//							//模拟数据插入
-//							setTimeout(function() {
-//								var lis = [];
-//								for(var i = 0; i < 8; i++) {
-//									lis.push('<li>' + ((page - 1) * 8 + i + 1) + '</li>')
-//								}
-//
-//								//执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
-//								//pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
-//								next(lis.join(''), page < 10); //假设总页数为 10
-//							}, 500);
-//						}
-//					});
-//					});
 		layui.use('carousel', function(){
 		  var carousel = layui.carousel;
 		  //建造实例
@@ -42,7 +17,6 @@
 		    ,width: '100%' //设置容器宽度
 		    ,height:'100%'
 		    ,arrow: 'always' //始终显示箭头
-//		    ,anim: 'updown' //切换动画方式	
 		  });
 		  carousel.render({
 		    elem: '#test2'
@@ -53,36 +27,70 @@
 		  });
 		});
 	</script>
-
+	<script>
+		$(function () {
+			//默认首页
+			$("#nav>ul>li:eq(0)>a").addClass("hander_a_b")
+			$(".active>ul>li:eq(0)>a").addClass("active_v_b")
+			//横向跳转其他界面接口
+			$(".hander_a").click(function () {
+				$(".hander_a").removeClass("hander_a_b")
+				$(this).addClass("hander_a_b")
+			})
+			$(".hander_a").hover(function () {
+				$(this).addClass("hander_a_a")
+			},function () {
+				$(this).removeClass("hander_a_a")
+			})
+			// 竖向跳转其他界面接口
+			$(".active_v").click(function () {
+				$(".active_v").removeClass("active_v_b")
+				$(this).addClass("active_v_b")
+			})
+			$(".active_v").hover(function () {
+				$(this).addClass("active_v_a")
+			},function () {
+				$(this).removeClass("active_v_a")
+			})
+		})
+	</script>
+	<!--下拉菜单-->
+	<script>
+		$(function () {
+			$(".blog-dropdown").hover(function(){
+				$(this).children(".blog-dropdown-this").children().show()
+			},function(){
+				$(this).children(".blog-dropdown-this").children().hide()
+			})
+		})
+	</script>
 	<body>
 		<header>
 			<div class="hhhand">
 			<a href="#"><img th:src="@{blog/myBlogs/img/MyLogo.png}" style="width: 140px;height: 100%;float: left;margin-left: 28px;"/></a>
 		<nav id="nav" style="float: left;">
 			<ul>
-				<li><a  href="#" class="hander_a">网站首页</a></li>
-				<li><a href="#" class="hander_a">模板</a></li>
+				<li><a  href="login" class="hander_a">网站首页</a></li>
+				<li><a href="published" class="hander_a">发表留言</a></li>
+				<li><a href="#" class="hander_a">发表文章</a></li>
+				<li><a href="#" class="hander_a">相册</a></li>
+				<li><a href="#" class="hander_a">意见反馈</a></li>
 				<li><a href="#" class="hander_a">关于我们</a></li>
-				<li><a href="#" class="hander_a">婚礼现场</a></li>
-				<li><a href="#" class="hander_a">婚纱摄影</a></li>
-				<li><a href="#" class="hander_a">我们的博客</a></li>
 				<li><a href="#" class="hander_a">联系我们</a></li>
 			</ul>
 			<div style="height: 100%;width: 218px;float: left;margin-left: 20px;" >
 				<input type="text" name="username" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="帅气的超人的博客" autocomplete="off" class="layui-input" style="height: 28px;margin-top: 8px;">
 			</div>
-			<a href="#" style="width: 26px;height: 25px;position: absolute;right: 392px;top: 10px;"><img th:src="@{blog/myBlogs/img/seek.png}" style="width: 26px;height: 25px;"/></a>
+			<a href="#" style="width: 26px;height: 25px;position: relative;right: 48px;top: 8px"><img  style="width: 26px;height: 25px;" th:src="@{blog/myBlogs/img/seek.png}"></a><!---->
 		</nav>
 			<div class="Writing_blog" style="position: relative;z-index: 999;">
-<!--				<a href="#"><img th:src="@{blog/myBlogs/img/pen.png}" style="width: 20px; height: 16px;"/>写博客</a>-->
-<!--				<a href="javascript:;" class="onColor" style="margin-left: 10px;"><img th:src="@{blog/myBlogs/img/envelope.png}" style="height: 16px;"/>消息</a>-->
 				<ul class="UL_on" >
 					<li id="li_on_1">
 						<a href="#"><img th:src="@{blog/myBlogs/img/pen.png}" style="width: 20px; height: 16px;"/>写博客</a>
 					</li>
-					<li class="dropdown">
+					<li class="blog-dropdown">
 						<a href="javascript:;" class="onColor" style="margin-left: 10px;"><img th:src="@{blog/myBlogs/img/envelope.png}" style="height: 16px;"/>消息</a>
-                        <ul class="dropdown-menu">
+                        <ul class="blog-dropdown-this">
                             <li><a href="#">回复</a></li>
 							<li><a href="#">订阅</a></li>
 							<li><a href="#">通知</a></li>
@@ -91,19 +99,11 @@
 				</ul>
 			</div>
 			<div class="loginandregist">
-				<a href="#">登录</a><span>/</span><a href="#">注册</a>
+				<a th:if="not ${#strings.isEmpty(session.name)}" th:text="${session.name}" href="#"></a>
+				<a th:if="${#strings.isEmpty(session.name)}" href="Mysign_in">登录/注册</a>
 			</div>
-				<script>
-					$(function () {
-						$(".dropdown").hover(function(){
-							$(this).children(".dropdown-menu").children().show()
-						},function(){
-							$(this).children(".dropdown-menu").children().hide()
-						})
-					})
-				</script>
 		</div>
-</header>
+		</header>
 		<div class="box">
 				<div class="active">
 					<ul>
@@ -129,6 +129,12 @@
 					    <div><img th:src="@{blog/myBlogs/img/图片5.jpg}"/></div>
 				  	  </div>
 				</div>
+				<div style="width: 100%;background: red;margin-top: 10px">
+<!--					th:each="article:${article}"-->
+					<div style="width: 100%;height: 100px;background: green;margin: auto">
+
+					</div>
+				</div>
 			</div>
 				<div class="riqi" style="z-index: 10">
 					<div class="lunbo_smo" >
@@ -150,33 +156,5 @@
 					</div>
 				</div>
 		</div>
-	<script>
-		$(function () {
-			//默认首页
-			$("#nav>ul>li:eq(0)>a").addClass("hander_a_b")
-			$(".active>ul>li:eq(0)>a").addClass("active_v_b")
-			//横向跳转其他界面接口
-			$(".hander_a").click(function () {
-				$(".hander_a").removeClass("hander_a_b")
-				$(this).addClass("hander_a_b")
-			})
-			$(".hander_a").hover(function () {
-				$(this).addClass("hander_a_a")
-			},function () {
-				$(this).removeClass("hander_a_a")
-			})
-		    // 竖向跳转其他界面接口
-			$(".active_v").click(function () {
-				$(".active_v").removeClass("active_v_b")
-				$(this).addClass("active_v_b")
-			})
-			$(".active_v").hover(function () {
-				$(this).addClass("active_v_a")
-			},function () {
-				$(this).removeClass("active_v_a")
-			})
-		})
-	</script>
 	</body>
-
 </html>

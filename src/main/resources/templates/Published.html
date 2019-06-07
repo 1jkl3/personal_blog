@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<link rel="stylesheet" th:href="@{blog/layui/css/layui.css}" />
+<script type="text/javascript" th:src="@{blog/MySign_in/js/jquery-3.1.1.js}"></script>
+<script type="text/javascript" th:src="@{blog/layui/layui.js}"></script>
+<script th:src="@{blog/comment/js/jj.js}"></script>
+<script th:src="@{blog/comment/js/bootstrap.js}"></script>
+<link rel="stylesheet" th:href="@{blog/myBlogs/css/Global_style.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{blog/comment/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{blog/comment/css/pinlun.css}" />
+<script>
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            ,width: '100%' //设置容器宽度
+            ,height:'100%'
+            ,arrow: 'always' //始终显示箭头
+        });
+        carousel.render({
+            elem: '#test2'
+            ,width: '100%' //设置容器宽度
+            ,height:'100%'
+            ,arrow: 'always' //始终显示箭头
+//		    ,anim: 'updown' //切换动画方式
+        });
+    });
+</script>
+<script>
+    $(function () {
+        //默认首页
+        $("#nav>ul>li:eq(1)>a").addClass("hander_a_b")
+        $(".active>ul>li:eq(0)>a").addClass("active_v_b")
+        //横向跳转其他界面接口
+        $(".hander_a").click(function () {
+            $(".hander_a").removeClass("hander_a_b")
+            $(this).addClass("hander_a_b")
+        })
+        $(".hander_a").hover(function () {
+            $(this).addClass("hander_a_a")
+        },function () {
+            $(this).removeClass("hander_a_a")
+        })
+        // 竖向跳转其他界面接口
+        $(".active_v").click(function () {
+            $(".active_v").removeClass("active_v_b")
+            $(this).addClass("active_v_b")
+        })
+        $(".active_v").hover(function () {
+            $(this).addClass("active_v_a")
+        },function () {
+            $(this).removeClass("active_v_a")
+        })
+    })
+</script>
+<!--				//下拉菜单-->
+<script>
+    $(function () {
+        $(".blog-dropdown").hover(function(){
+            $(this).children(".blog-dropdown-this").children().show()
+        },function(){
+            $(this).children(".blog-dropdown-this").children().hide()
+        })
+    })
+</script>
+<script  th:inline="javascript" type="text/javascript">
+    //初始化数据
+    var arr = [
+        {id:1,img:[[@{blog/comment/img/img.jpg}]],replyName:"帅大叔",beReplyName:"匿名",content:"同学聚会，看到当年追我的屌丝开着宝马车带着他老婆来了，他老婆是我隔壁宿舍的同班同学，心里后悔极了。",time:"2017-10-17 11:42:53",address:"深圳",osname:"",browse:"谷歌",replyBody:[]},
+        {id:2,img:[[@{blog/comment/img/img.jpg}]],replyName:"匿名",beReplyName:"",content:"到菜市场买菜，看到一个孩子在看摊，我问：“一只鸡多少钱？” 那孩子回答：“23。” 我又问：“两只鸡多少钱？” 孩子愣了一下，一时间没算过来，急中生智大吼一声：“一次只能买一只！”",time:"2017-10-17 11:42:53",address:"深圳",osname:"",browse:"谷歌",replyBody:[{id:3,img:"",replyName:"帅大叔",beReplyName:"匿名",content:"来啊，我们一起吃鸡",time:"2017-10-17 11:42:53",address:"",osname:"",browse:"谷歌"}]},
+        {id:3,img:[[@{blog/comment/img/img.jpg}]],replyName:"帅大叔",beReplyName:"匿名",content:"同学聚会，看到当年追我的屌丝开着宝马车带着他老婆来了，他老婆是我隔壁宿舍的同班同学，心里后悔极了。",time:"2017-10-17 11:42:53",address:"深圳",osname:"win10",browse:"谷歌",replyBody:[]}
+    ];
+    $(function(){
+        $(".comment-list").addCommentList({data:arr,add:""});
+        $("#comment").click(function(){
+            var obj = new Object();
+            obj.img=[[@{blog/comment/img/img.jpg}]];
+            obj.replyName="匿名";
+            obj.content=$("#content").val();
+            obj.browse="成都";
+            obj.osname="win";
+            obj.replyBody="";
+            alert(obj.img)
+            $(".comment-list").addCommentList({data:[],add:obj});
+        });
+    })
+</script>
+<body>
+<header>
+    <div class="hhhand">
+        <a href="#"><img th:src="@{blog/myBlogs/img/MyLogo.png}" style="width: 140px;height: 100%;float: left;margin-left: 28px;"/></a>
+        <nav id="nav" style="float: left;">
+            <ul>
+                <li><a  href="login" class="hander_a">网站首页</a></li>
+                <li><a href="published" class="hander_a">发表留言</a></li>
+                <li><a href="#" class="hander_a">发表文章</a></li>
+                <li><a href="#" class="hander_a">相册</a></li>
+                <li><a href="#" class="hander_a">意见反馈</a></li>
+                <li><a href="#" class="hander_a">关于我们</a></li>
+                <li><a href="#" class="hander_a">联系我们</a></li>
+            </ul>
+            <div style="height: 100%;width: 218px;float: left;margin-left: 20px;" >
+                <input type="text" name="username" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="帅气的超人的博客" autocomplete="off" class="layui-input" style="height: 28px;margin-top: -2px;">
+            </div>
+            <a href="#" style="width: 26px;height: 25px;position: relative;right: 48px;"><img  style="width: 26px;height: 25px;" th:src="@{blog/myBlogs/img/seek.png}"></a><!---->
+        </nav>
+        <div class="Writing_blog" style="position: relative;z-index: 999;">
+            <ul class="UL_on" >
+                <li id="li_on_1">
+                    <a href="#"><img th:src="@{blog/myBlogs/img/pen.png}" style="width: 20px; height: 16px;"/>写博客</a>
+                </li>
+                <li class="blog-dropdown">
+                    <a href="javascript:;" class="onColor" style="margin-left: 10px;"><img th:src="@{blog/myBlogs/img/envelope.png}" style="height: 16px;"/>消息</a>
+                    <ul class="blog-dropdown-this">
+                        <li><a href="#">回复</a></li>
+                        <li><a href="#">订阅</a></li>
+                        <li><a href="#">通知</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="loginandregist">
+            <a th:if="not ${#strings.isEmpty(session.name)}" th:text="${session.name}" href="#"></a>
+            <a th:if="${#strings.isEmpty(session.name)}" href="Mysign_in">登录/注册</a>
+        </div>
+    </div>
+    </header>
+    <div class="box">
+        <div class="active">
+            <ul>
+                <li><a href="#" class="active_v">1</a></li>
+                <li><a href="#" class="active_v">2</a></li>
+                <li><a href="#" class="active_v">3</a></li>
+                <li><a href="#" class="active_v">4</a></li>
+                <li><a href="#" class="active_v">5</a></li>
+                <li><a href="#" class="active_v">6</a></li>
+                <li><a href="#" class="active_v">7</a></li>
+                <li><a href="#" class="active_v">8</a></li>
+                <li><a href="#" class="active_v">9</a></li>
+                <li><a href="#" class="active_v">10</a></li>
+            </ul>
+        </div>
+        <div class="pinglun_div">
+            <div class="container">
+                <div class="commentbox">
+                    <textarea cols="80" rows="50" placeholder="来说几句吧......" class="mytextarea" id="content"></textarea>
+                    <div class="btn btn-info pull-right" id="comment">评论</div>
+                </div>
+                <div class="comment-list"></div>
+            </div>
+        </div>
+        <div class="riqi" style="z-index: 10">
+            <div class="lunbo_smo" >
+                <div class="layui-carousel" id="test2">
+                    <div carousel-item>
+                        <div><img th:src="@{blog/myBlogs/img/图片1.jpg}"/></div>
+                        <div><img th:src="@{blog/myBlogs/img/图片2.jpg}"/></div>
+                        <div><img th:src="@{blog/myBlogs/img/图片3.jpg}"/></div>
+                        <div><img th:src="@{blog/myBlogs/img/图片4.jpg}"/></div>
+                        <div><img th:src="@{blog/myBlogs/img/图片5.jpg}"/></div>
+                    </div>
+                </div>
+            </div>
+            <div class="right_box">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 5px;margin-bottom: 5px;">
+                    <legend><b style="font-size: 18px;">今日推荐</b></legend>
+                </fieldset>
+                <div class="right_box_box"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

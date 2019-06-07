@@ -33,21 +33,23 @@
             });
             //验证码
             createCode();
-
-            $.cookie("zhanghao",$(".login_txtbx").val(),{ expires: 7});
+            //记住密码
+            $("#pass_out").click(function () {
+                if($("#pass_out").prop("checked")){
+                    $.cookie("name",$("input[name='username_login']").val(),{ expires: 7,path:'/Mysign_in'});
+                    $.cookie("pass",$("input[name='password_login']").val(),{ expires: 7,path:'/Mysign_in'});
+                }
+            })
+            $("input[name='username_login']").val($.cookie("name"))
+            $("input[name='password_login']").val($.cookie("pass"))
             //测试提交，对接程序删除即可
             $(".submit_btn").click(function() {
-                // alert($.cookie("zhanghao"))
-                // alert($("#J_down").css("placeholder"))
-                alert($("#J_down").attr("placeholder"))
-                if($("input[name='username_login']").val()==""||$("input[name='password_login']").val()){
-                layer.msg("请输入用户名密码")
-            }
-                if($("#J_down").attr("placeholder")=="验证码通过"){
-                    alert(111)
+                if($("input[name='username_login']").val()==""||$("input[name='password_login']").val()==""){
+                layer.msg("请输入用户名或密码")
+            }else if($("#J_down").attr("placeholder")=="验证码通过"){
                         $.ajax({
                             type: "post",
-                            url: "/login_in",
+                            url: "login_in",
                             data: {"username":$("input[name='username_login']").val(),
                                 "password":$("input[name='password_login']").val()},
                             success:function (data) {
@@ -57,7 +59,6 @@
                                 }else {
                                     layer.msg(data)
                                 }
-
                             }
                         })
                 }else if($("#J_down").attr("placeholder")=="验证码错误"){
@@ -66,29 +67,6 @@
                     layer.msg('您未验证码核验');
                 }
             });
-            // //验证
-            // $(".ver_btn").click(function(){
-            //     if($("#J_down").attr("placeholder")=="验证码通过"){
-            //         layer.msg('验证码通过');
-            //     }else if($("#J_down").attr("placeholder")=="验证码错误"){
-            //         layer.msg('验证码错误');
-            //     }
-            // })
-            // //账号判断
-            // if($(".user_icon>.login_txtbx").val()==""){
-            //     layer.msg('账号不能为空');
-            // }else if($(".pwd_icon>.login_txtbx").val()==""){
-            //     layer.msg('密码不能为空');
-            // }
-            // $(".user_icon>.login_txtbx").change(function(){
-            //     if($(this).val()==""||$(this).val()==null)
-            //         layer.msg('账号不能为空');
-            // })
-            // //密码判断
-            // $(".pwd_icon>.login_txtbx").change(function(){
-            //     if($(this).val()==""||$(this).val()==null)
-            //         layer.msg('密码不能为空');
-            // })
         });
     </script>
 </head>

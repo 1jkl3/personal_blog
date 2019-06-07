@@ -3,12 +3,14 @@ package com.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -69,5 +71,10 @@ public class MyController {
     @RequestMapping(value = "login")
     public String login_in(){
         return "login";
+    }
+    //发表留言
+    @RequestMapping(value = "published")
+    public String published(){
+        return "Published";
     }
 }

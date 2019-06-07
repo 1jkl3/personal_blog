@@ -37,7 +37,6 @@ public class Email_controller {
     @RequestMapping("login_up")
     public void login(@RequestBody MyBlog_users myBlog_users,
                       HttpServletResponse response){
-//        Integer em = (Integer) session.getAttribute("em");
         System.out.println(myBlog_users);
         try{
             if(session.getAttribute("em")==null){
@@ -61,13 +60,15 @@ public class Email_controller {
             }
         }
     }
+    //用户登陆
 @RequestMapping("login_in")
     public void login_in(@RequestParam("username") String username,@RequestParam("password")String password,HttpServletResponse response){
             try {
                 if(!userService.getUserServiceByName(username)){
                     if(!userService.getUserServiceByNameAndPass(username,password)) {
                         response.getWriter().write("登陆成功");
-//                        response.sendRedirect("login.html");
+                        //将用户数据传给页面提示登陆用户名称
+                        session.setAttribute("name","欢迎用户:"+username);
                     }
                 }else {
                     response.getWriter().write("用户名或密码错误");
