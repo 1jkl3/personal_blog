@@ -4,7 +4,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/shop?serverTimezone=UTC&useSSL=true
     username: root
-    password: 1234
+    password: mysql110
     #关闭缓存
   thymeleaf:
     cache: false

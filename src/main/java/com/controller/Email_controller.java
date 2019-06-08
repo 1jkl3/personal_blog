@@ -68,7 +68,7 @@ public class Email_controller {
                     if(!userService.getUserServiceByNameAndPass(username,password)) {
                         response.getWriter().write("登陆成功");
                         //将用户数据传给页面提示登陆用户名称
-                        session.setAttribute("name","欢迎用户:"+username);
+                        session.setAttribute("name",username);
                     }
                 }else {
                     response.getWriter().write("用户名或密码错误");

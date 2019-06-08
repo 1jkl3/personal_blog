@@ -7,7 +7,7 @@
 <link rel="stylesheet" th:href="@{blog/layui/css/layui.css}" />
 <script type="text/javascript" th:src="@{blog/MySign_in/js/jquery-3.1.1.js}"></script>
 <script type="text/javascript" th:src="@{blog/layui/layui.js}"></script>
-<script th:src="@{blog/comment/js/jj.js}"></script>
+<script th:inline="javascript" th:src="@{blog/comment/js/jj.js}"></script>
 <script th:src="@{blog/comment/js/bootstrap.js}"></script>
 <link rel="stylesheet" th:href="@{blog/myBlogs/css/Global_style.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{blog/comment/css/bootstrap.css}">
@@ -75,18 +75,51 @@
         {id:2,img:[[@{blog/comment/img/img.jpg}]],replyName:"匿名",beReplyName:"",content:"到菜市场买菜，看到一个孩子在看摊，我问：“一只鸡多少钱？” 那孩子回答：“23。” 我又问：“两只鸡多少钱？” 孩子愣了一下，一时间没算过来，急中生智大吼一声：“一次只能买一只！”",time:"2017-10-17 11:42:53",address:"深圳",osname:"",browse:"谷歌",replyBody:[{id:3,img:"",replyName:"帅大叔",beReplyName:"匿名",content:"来啊，我们一起吃鸡",time:"2017-10-17 11:42:53",address:"",osname:"",browse:"谷歌"}]},
         {id:3,img:[[@{blog/comment/img/img.jpg}]],replyName:"帅大叔",beReplyName:"匿名",content:"同学聚会，看到当年追我的屌丝开着宝马车带着他老婆来了，他老婆是我隔壁宿舍的同班同学，心里后悔极了。",time:"2017-10-17 11:42:53",address:"深圳",osname:"win10",browse:"谷歌",replyBody:[]}
     ];
+    function getNowDateFormat() {
+        var nowDate = new Date();
+        var year = nowDate.getFullYear();
+        var month = filterNum(nowDate.getMonth() + 1);
+        var day = filterNum(nowDate.getDate());
+        var hours = filterNum(nowDate.getHours());
+        var min = filterNum(nowDate.getMinutes());
+        var seconds = filterNum(nowDate.getSeconds());
+        return year + "-" + month + "-" + day + " " + hours + ":" + min + ":" + seconds;
+    }
+    function filterNum(num) {
+        if(num < 10) {
+            return "0" + num;
+        } else {
+            return num;
+        }
+    }
     $(function(){
         $(".comment-list").addCommentList({data:arr,add:""});
         $("#comment").click(function(){
-            var obj = new Object();
-            obj.img=[[@{blog/comment/img/img.jpg}]];
-            obj.replyName="匿名";
-            obj.content=$("#content").val();
-            obj.browse="成都";
-            obj.osname="win";
-            obj.replyBody="";
-            alert(obj.img)
-            $(".comment-list").addCommentList({data:[],add:obj});
+            if([[${session.name}]]==null){
+               alert("登录后才可以评论");
+            }else{
+            var T_comment={"t_name":[[${session.name}]],
+                "t_img":[[@{blog/comment/img/img.jpg}]],
+                "t_text":$("#content").val(),
+                "t_time":getNowDateFormat()}
+            $.ajax({
+                type: "post",
+                url: "Tcom",
+                data: JSON.stringify(T_comment),
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    var resul=data["result"]
+                    var obj = new Object();
+                    obj.img=resul.t_img;
+                    obj.replyName=resul.t_name;
+                    obj.content=resul.t_text;
+                    obj.browse="成都";
+                    obj.osname="win";
+                    obj.replyBody="";
+                    $(".comment-list").addCommentList({data:[],add:obj});
+                }
+            })
+            }
         });
     })
 </script>
@@ -125,7 +158,8 @@
             </ul>
         </div>
         <div class="loginandregist">
-            <a th:if="not ${#strings.isEmpty(session.name)}" th:text="${session.name}" href="#"></a>
+            <a th:if="not ${#strings.isEmpty(session.name)}" th:text="欢迎用户" href="#"></a>
+            <a class="a_name" th:if="not ${#strings.isEmpty(session.name)}" th:text="${session.name}" href="#"></a>
             <a th:if="${#strings.isEmpty(session.name)}" href="Mysign_in">登录/注册</a>
         </div>
     </div>

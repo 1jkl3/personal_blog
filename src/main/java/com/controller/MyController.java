@@ -1,6 +1,8 @@
 package com.controller;
 
+import com.User_service.Impl.T_commServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +23,7 @@ import java.util.UUID;
 @Controller
 @Slf4j
 public class MyController {
-    private File filea=null;
+    private File filea;
     @RequestMapping("index")
     public String index(Model model){
         model.addAttribute("e","你好");
@@ -75,6 +77,7 @@ public class MyController {
     //发表留言
     @RequestMapping(value = "published")
     public String published(){
+//        tCommService.insertComment()
         return "Published";
     }
 }

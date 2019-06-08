@@ -28,8 +28,13 @@
 	}
 
 	function createReplyComment(reply) {
-		var replyEl = "<div class='reply'><div><a href='javascript:void(0)' class='replyname'>" + reply.replyName + "</a>:<a href='javascript:void(0)'>@" + reply.beReplyName + "</a><span>" + reply.content + "</span></div>" +
-			"<p><span>" + reply.time + "</span> <span class='reply-list-btn'>回复</span></p></div>";
+		if($(".reply-list>div").eq(0).text()==""){
+			var replyEl = "<div class='reply'><div><a href='javascript:void(0)' class='replyname'>" + reply.replyName + "</a>:<a href='javascript:void(0)'>@" + reply.beReplyName + "</a><span>" + reply.content + "</span></div>" +
+				"<p><span>" + reply.time + "</span> <span class='reply-list-btn'>回复</span></p></div>";
+		}else{
+			var replyEl = "<div class='reply'><div><a href='javascript:void(0)' class='replyname'>" + reply.replyName + "</a>:<a href='javascript:void(0)'>@" + $(".replyname").text() + "</a><span>" + reply.content + "</span></div>" +
+				"<p><span>" + reply.time + "</span> <span class='reply-list-btn'>回复</span></p></div>";
+		}
 		return replyEl;
 	}
 
@@ -58,13 +63,43 @@
 			if(content != "") {
 				var parentEl = $(this).parent().parent().parent().parent();
 				var obj = new Object();
-				obj.replyName = "匿名";
+				obj.replyName = $(".a_name").text();
 				if(el.parent().parent().hasClass("reply")) {
-					console.log("1111");
-					obj.beReplyName = el.parent().parent().find("a:first").text();
+					//儿子的儿子
+					var C_com={"c_name":obj.replyName,
+						"c_time":getNowDateFormat(),
+						"c_text":content,
+						"c_class":1}
+					$.ajax({
+						type:"post",
+						url:"Ccom",
+						data:JSON.stringify(C_com),
+						contentType: "application/json;charset=utf-8",
+						success:function (data) {
+							obj.beReplyName = el.parent().parent().find("a:first").text();
+						},
+						error:function (data) {
+							alert("发送失败")
+						}
+					})
 				} else {
-					console.log("2222");
-					obj.beReplyName = parentEl.find("h3").text();
+					//儿子
+					var C_com={"c_name":obj.replyName,
+						"c_time":getNowDateFormat(),
+						"c_text":content,
+						"c_class":2}
+					$.ajax({
+						type:"post",
+						url:"Ccom",
+						data:JSON.stringify(C_com),
+						contentType: "application/json;charset=utf-8",
+						success:function (data) {
+							obj.beReplyName = parentEl.find("h3").text();
+						},
+						error:function (data) {
+							alert("发送失败")
+						}
+					})
 				}
 				obj.content = content;
 				obj.time = getNowDateFormat();
