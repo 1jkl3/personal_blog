@@ -1,6 +1,12 @@
 body{
 	background-color: rgb(244,244,244);
 }
+.pinglun_div{
+	float: left;
+	width: 60%;
+	height:auto;
+	margin-left: 12px;
+}
 .container{
 		width: 100%;
 	}

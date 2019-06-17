@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * @author 杜虎
@@ -20,4 +21,7 @@ public class T_comment implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date t_time;
+    private String t_browse;
+    private String t_osname;
+    private List<C_com> cCom;
 }

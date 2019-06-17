@@ -36,8 +36,8 @@
             //记住密码
             $("#pass_out").click(function () {
                 if($("#pass_out").prop("checked")){
-                    $.cookie("name",$("input[name='username_login']").val(),{ expires: 7,path:'/Mysign_in'});
-                    $.cookie("pass",$("input[name='password_login']").val(),{ expires: 7,path:'/Mysign_in'});
+                    $.cookie("name",$("input[name='username_login']").val(),{ expires: 7});
+                    $.cookie("pass",$("input[name='password_login']").val(),{ expires: 7});
                 }
             })
             $("input[name='username_login']").val($.cookie("name"))
@@ -54,7 +54,6 @@
                                 "password":$("input[name='password_login']").val()},
                             success:function (data) {
                                 if(data=="登陆成功"){
-                                    layer.msg(data)
                                     location.href="login"
                                 }else {
                                     layer.msg(data)
@@ -74,8 +73,8 @@
 <body>
 <dl class="admin_login">
     <dt>
-        <strong>站点后台管理系统</strong>
-        <em>Management System</em>
+        <strong>博客后台管理系统</strong>
+        <em>Blog System</em>
     </dt>
     <div class="box_div">
         <dd class="user_icon">
@@ -99,7 +98,8 @@
         </dd>
         <dd class="wangji">
             <a href="#">忘记密码?</a>
-            <a href="#" id="to_register" style="margin-left: 170px;">用户注册</a>
+            <a href="#" id="to_manage" style="margin-left: 50px">管理员登陆</a>
+            <a href="#" id="to_register" style="margin-left: 50px;">用户注册</a>
         </dd>
     </div>
     <dl class="admin_regist">
@@ -126,7 +126,21 @@
             <input type="button" id="login_on" value="立即注册" class="regist_button_my" />
         </dd>
         <dd>
-            <a href="#" style="width: 50px; height: 40px;position: relative;left: -120px;top: 10px;"><img id="to_login" th:src="@{blog/MySign_in/img/tou1.png}" style="width: 50px; height: 40px;"/></a>
+            <a href="#" style="width: 50px; height: 40px;position: relative;left: -120px;top: 10px;"><img class="to_login" th:src="@{blog/MySign_in/img/tou1.png}" style="width: 50px; height: 40px;"/></a>
+        </dd>
+    </dl>
+    <dl class="manage_sign_up">
+        <dd class="user_register">
+            <input type="text" name="manage_ID" placeholder="账号" class="login_txtbx_register" />
+        </dd>
+        <dd class="pwd_register">
+            <input type="password" name="manage_pass" placeholder="密码" class="login_txtbx_register" />
+        </dd>
+        <dd>
+            <input type="button" id="manager_up" value="立即登陆" class="regist_button_my" />
+        </dd>
+        <dd>
+            <a href="#" style="width: 50px; height: 40px;position: relative;left: -120px;top: 10px;"><img class="to_login" th:src="@{blog/MySign_in/img/tou1.png}" style="width: 50px; height: 40px;"/></a>
         </dd>
     </dl>
 </dl>
@@ -136,9 +150,36 @@
             $(".admin_regist").css("display","block");
             $(".box_div").css("display","none")
         })
-        $("#to_login").click(function(){
+        $("#to_manage").click(function(){
+            $(".manage_sign_up").css("display","block");
+            $(".box_div").css("display","none")
+        })
+        $(".to_login").click(function(){
             $(".admin_regist").css("display","none");
+            $(".manage_sign_up").css("display","none");
             $(".box_div").css("display","block")
+        })
+        //管理员登陆接口
+        $("#manager_up").click(function () {
+            if($("input[name='manage_ID']").val().trim()==""||$("input[name='manage_ID']").val().trim()==null){
+                layer.msg("账号不能为空")
+            }else if($("input[name='manage_pass']").val().trim()==""||$("input[name='manage_pass']").val().trim()==null){
+                layer.msg("密码不能为空")
+            }else{
+                $.ajax({
+                    type:"post",
+                    url:"manager_sginx",
+                    data:{"m_user":$("input[name='manage_ID']").val(),
+                        "m_pass":$("input[name='manage_pass']").val()},
+                    success:function (data) {
+                        if(data==0){
+                            layer.msg("账号或密码错误")
+                        }else{
+                            location.href="manager_login"
+                        }
+                    }
+                })
+            }
         })
         //注册验证接口
         var reg=/[a-zA-Z]\d{3,15}/;

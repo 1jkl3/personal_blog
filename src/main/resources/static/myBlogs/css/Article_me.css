@@ -1,0 +1,11 @@
+.article-the{
+    float: left;
+    width: 60%;
+    height: 943px;
+    margin-left: 12px;
+    background: white;
+}
+.article-hander{
+    width: 100%;
+    height: 200px;
+}

@@ -2,33 +2,45 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/html">
 	<head>
 		<meta charset="utf-8" />
-		<title></title>
+		<title>首页</title>
 	</head>
 	<link rel="stylesheet" th:href="@{blog/layui/css/layui.css}" />
 	<script type="text/javascript" th:src="@{blog/MySign_in/js/jquery-3.1.1.js}"></script>
 	<script type="text/javascript" th:src="@{blog/layui/layui.js}"></script>
 	<link rel="stylesheet" th:href="@{blog/myBlogs/css/Global_style.css}" />
-	<script>
-		layui.use('carousel', function(){
-		  var carousel = layui.carousel;
-		  //建造实例
-		  carousel.render({
-		    elem: '#test1'
-		    ,width: '100%' //设置容器宽度
-		    ,height:'100%'
-		    ,arrow: 'always' //始终显示箭头
-		  });
-		  carousel.render({
-		    elem: '#test2'
-		    ,width: '100%' //设置容器宽度
-		    ,height:'100%'
-		    ,arrow: 'always' //始终显示箭头
-//		    ,anim: 'updown' //切换动画方式	
-		  });
-		});
-	</script>
-	<script>
+	<script th:inline="javascript">
 		$(function () {
+			layui.use(['laypage', 'layer','carousel'], function() {
+				var laypage = layui.laypage
+						, layer = layui.layer,
+						carousel = layui.carousel;
+				carousel.render({
+					elem: '#test1'
+					,width: '100%' //设置容器宽度
+					,height:'100%'
+					,arrow: 'always' //始终显示箭头
+				});
+				carousel.render({
+					elem: '#test2'
+					,width: '100%' //设置容器宽度
+					,height:'100%'
+					,arrow: 'always' //始终显示箭头
+//		    ,anim: 'updown' //切换动画方式
+				});
+				//分页
+				laypage.render({
+					elem: 'page_helper'
+					,count: [[${session.total}]]
+					,limit:[[${session.pageSize}]]
+					,curr:[[${session.pageNum}]]
+					,layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+					,jump:function (obj) {
+						var curr=obj.curr
+						var pagesize=obj.limit
+						$("#page_helr").load("pagehelp_a?page="+curr + "&pagesize=" + pagesize);
+					}
+				});
+			});
 			//默认首页
 			$("#nav>ul>li:eq(0)>a").addClass("hander_a_b")
 			$(".active>ul>li:eq(0)>a").addClass("active_v_b")
@@ -72,7 +84,7 @@
 			<ul>
 				<li><a  href="login" class="hander_a">网站首页</a></li>
 				<li><a href="published" class="hander_a">发表留言</a></li>
-				<li><a href="#" class="hander_a">发表文章</a></li>
+				<li><a href="article" class="hander_a">发表文章</a></li>
 				<li><a href="#" class="hander_a">相册</a></li>
 				<li><a href="#" class="hander_a">意见反馈</a></li>
 				<li><a href="#" class="hander_a">关于我们</a></li>
@@ -130,12 +142,25 @@
 					    <div><img th:src="@{blog/myBlogs/img/图片5.jpg}"/></div>
 				  	  </div>
 				</div>
-				<div style="width: 100%;background: red;margin-top: 10px">
-<!--					th:each="article:${article}"-->
-					<div style="width: 100%;height: 100px;background: green;margin: auto">
+				<div style="width: 100%;height:700px;background-color: rgb(244,244,244);margin-top: 10px" id="page_helr" th:fragment="pageHelr">
+					<div class="layui-row layui-col-space15" th:each="lists:${list}" style="width: 100%;margin: auto">
+						<div class="layui-col-md6" style="width: 100%">
+							<div class="layui-card">
+								<div class="layui-card-header" ><a th:href="@{'boke?id='+${lists.e_id}}" th:text="${lists.e_tit}"></a></div>
+								<div class="layui-card-body">
 
+<!--	aa.html?aa=fdsfsdf&bb=fdsfk   -->
+									<p id="p_text" th:text="${lists.e_txt}"></p>
+									<img th:src="${lists.e_img}" style="width: 50px;height: 50px"/>
+									<span th:text="${lists.e_time}"></span>
+									<span>博主:</span>
+                                    <span th:text="${lists.e_name}"></span>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
+				<div id="page_helper" style="width:700px;margin: auto"></div>
 			</div>
 				<div class="riqi" style="z-index: 10">
 					<div class="lunbo_smo" >

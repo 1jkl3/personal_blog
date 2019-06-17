@@ -2,16 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>发布留言</title>
 </head>
 <link rel="stylesheet" th:href="@{blog/layui/css/layui.css}" />
 <script type="text/javascript" th:src="@{blog/MySign_in/js/jquery-3.1.1.js}"></script>
 <script type="text/javascript" th:src="@{blog/layui/layui.js}"></script>
 <script th:inline="javascript" th:src="@{blog/comment/js/jj.js}"></script>
-<script th:src="@{blog/comment/js/bootstrap.js}"></script>
 <link rel="stylesheet" th:href="@{blog/myBlogs/css/Global_style.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{blog/comment/css/bootstrap.css}">
 <link rel="stylesheet" th:href="@{blog/comment/css/pinlun.css}" />
+<script type="text/javascript" th:src="@{blog/MySign_in/js/jquery.cookie.js}"></script>
 <script>
     layui.use('carousel', function(){
         var carousel = layui.carousel;
@@ -58,7 +57,7 @@
         })
     })
 </script>
-<!--				//下拉菜单-->
+<!--下拉菜单-->
 <script>
     $(function () {
         $(".blog-dropdown").hover(function(){
@@ -69,12 +68,16 @@
     })
 </script>
 <script  th:inline="javascript" type="text/javascript">
+    $(function () {
+        $.cookie("username",[[${session.name}]]);
+    })
     //初始化数据
-    var arr = [
-        {id:1,img:[[@{blog/comment/img/img.jpg}]],replyName:"帅大叔",beReplyName:"匿名",content:"同学聚会，看到当年追我的屌丝开着宝马车带着他老婆来了，他老婆是我隔壁宿舍的同班同学，心里后悔极了。",time:"2017-10-17 11:42:53",address:"深圳",osname:"",browse:"谷歌",replyBody:[]},
-        {id:2,img:[[@{blog/comment/img/img.jpg}]],replyName:"匿名",beReplyName:"",content:"到菜市场买菜，看到一个孩子在看摊，我问：“一只鸡多少钱？” 那孩子回答：“23。” 我又问：“两只鸡多少钱？” 孩子愣了一下，一时间没算过来，急中生智大吼一声：“一次只能买一只！”",time:"2017-10-17 11:42:53",address:"深圳",osname:"",browse:"谷歌",replyBody:[{id:3,img:"",replyName:"帅大叔",beReplyName:"匿名",content:"来啊，我们一起吃鸡",time:"2017-10-17 11:42:53",address:"",osname:"",browse:"谷歌"}]},
-        {id:3,img:[[@{blog/comment/img/img.jpg}]],replyName:"帅大叔",beReplyName:"匿名",content:"同学聚会，看到当年追我的屌丝开着宝马车带着他老婆来了，他老婆是我隔壁宿舍的同班同学，心里后悔极了。",time:"2017-10-17 11:42:53",address:"深圳",osname:"win10",browse:"谷歌",replyBody:[]}
-    ];
+    // var arr = [
+    //     // {id:1,img:[[@{blog/comment/img/img.jpg}]],replyName:"帅大叔",beReplyName:"匿名",content:"同学聚会，看到当年追我的屌丝开着宝马车带着他老婆来了，他老婆是我隔壁宿舍的同班同学，心里后悔极了。",time:"2017-10-17 11:42:53",address:"深圳",osname:"",browse:"谷歌",replyBody:[]},
+    //     // {id:2,img:[[@{blog/comment/img/img.jpg}]],replyName:"匿名",beReplyName:"",content:"到菜市场买菜，看到一个孩子在看摊，我问：“一只鸡多少钱？” 那孩子回答：“23。” 我又问：“两只鸡多少钱？” 孩子愣了一下，一时间没算过来，急中生智大吼一声：“一次只能买一只！”",time:"2017-10-17 11:42:53",address:"深圳",osname:"",browse:"谷歌",replyBody:[{id:3,img:"",replyName:"帅大叔",beReplyName:"匿名",content:"来啊，我们一起吃鸡",time:"2017-10-17 11:42:53",address:"",osname:"",browse:"谷歌"}]},
+    //     {id:3,img:[[@{blog/comment/img/img.jpg}]],replyName:"帅大叔",beReplyName:"匿名",content:"同学聚会，看到当年追我的屌丝开着宝马车带着他老婆来了，他老婆是我隔壁宿舍的同班同学，心里后悔极了。",time:"2017-10-17 11:42:53",address:"深圳",osname:"win10",browse:"谷歌",replyBody:[]}
+    // ];
+    var adda=[[${All_P}]];
     function getNowDateFormat() {
         var nowDate = new Date();
         var year = nowDate.getFullYear();
@@ -93,32 +96,37 @@
         }
     }
     $(function(){
-        $(".comment-list").addCommentList({data:arr,add:""});
+        $(".comment-list").addCommentList({data:adda,add:""});
         $("#comment").click(function(){
             if([[${session.name}]]==null){
                alert("登录后才可以评论");
             }else{
-            var T_comment={"t_name":[[${session.name}]],
-                "t_img":[[@{blog/comment/img/img.jpg}]],
-                "t_text":$("#content").val(),
-                "t_time":getNowDateFormat()}
-            $.ajax({
-                type: "post",
-                url: "Tcom",
-                data: JSON.stringify(T_comment),
-                contentType: "application/json;charset=utf-8",
-                success: function (data) {
-                    var resul=data["result"]
-                    var obj = new Object();
-                    obj.img=resul.t_img;
-                    obj.replyName=resul.t_name;
-                    obj.content=resul.t_text;
-                    obj.browse="成都";
-                    obj.osname="win";
-                    obj.replyBody="";
-                    $(".comment-list").addCommentList({data:[],add:obj});
-                }
-            })
+                var T_comment={
+                    "t_name":[[${session.name}]],
+                    "t_img":[[@{blog/comment/img/img.jpg}]],
+                    "t_text":$("#content").val(),
+                    "t_browse":"成都",
+                    "t_osname":"win",
+                    "t_time":getNowDateFormat()}
+                $.ajax({
+                    type: "post",
+                    url: "Tcom",
+                    data: JSON.stringify(T_comment),
+                    contentType: "application/json;charset=utf-8",
+                    success: function (data) {
+                        var resul=data["result"]
+                        var obj = new Object();
+                        obj.t_id=resul.t_id;
+                        obj.t_img=resul.t_img;
+                        obj.t_name=resul.t_name;
+                        obj.t_text=resul.t_text;
+                        obj.t_browse="成都";
+                        obj.t_osname="win";
+                        obj.t_time=getNowDateFormat();
+                        obj.ccom="";
+                        $(".comment-list").addCommentList({data:[],add:obj});
+                    }
+                })
             }
         });
     })
@@ -131,16 +139,16 @@
             <ul>
                 <li><a  href="login" class="hander_a">网站首页</a></li>
                 <li><a href="published" class="hander_a">发表留言</a></li>
-                <li><a href="#" class="hander_a">发表文章</a></li>
+                <li><a href="article" class="hander_a">发表文章</a></li>
                 <li><a href="#" class="hander_a">相册</a></li>
                 <li><a href="#" class="hander_a">意见反馈</a></li>
                 <li><a href="#" class="hander_a">关于我们</a></li>
                 <li><a href="#" class="hander_a">联系我们</a></li>
             </ul>
             <div style="height: 100%;width: 218px;float: left;margin-left: 20px;" >
-                <input type="text" name="username" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="帅气的超人的博客" autocomplete="off" class="layui-input" style="height: 28px;margin-top: -2px;">
+                <input type="text" name="username" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="帅气的超人的博客" autocomplete="off" class="layui-input" style="height: 28px;margin-top: 8px;">
             </div>
-            <a href="#" style="width: 26px;height: 25px;position: relative;right: 48px;"><img  style="width: 26px;height: 25px;" th:src="@{blog/myBlogs/img/seek.png}"></a><!---->
+            <a href="#" style="width: 26px;height: 25px;position: relative;right: 48px;top: 8px"><img  style="width: 26px;height: 25px;" th:src="@{blog/myBlogs/img/seek.png}"></a>
         </nav>
         <div class="Writing_blog" style="position: relative;z-index: 999;">
             <ul class="UL_on" >
@@ -183,7 +191,7 @@
             <div class="container">
                 <div class="commentbox">
                     <textarea cols="80" rows="50" placeholder="来说几句吧......" class="mytextarea" id="content"></textarea>
-                    <div class="btn btn-info pull-right" id="comment">评论</div>
+                    <div class="layui-btn layui-btn-radius layui-btn-primary" id="comment">评论</div>
                 </div>
                 <div class="comment-list"></div>
             </div>

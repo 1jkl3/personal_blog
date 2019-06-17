@@ -11,10 +11,11 @@
     <select id="getAllUser" resultType="com.pojo.MyBlog_users">
         select * from myBlog_users
     </select>
-<!--    根据name查询-->
+<!--    根据name和pass查询-->
     <select id="getUserByNameAndPass" resultType="com.pojo.MyBlog_users">
         select * from myblog_users where username=#{username} and password=#{pass}
     </select>
+<!--   根据name查询 -->
     <select id="getUserByName" resultType="com.pojo.MyBlog_users">
         select * from myblog_users where username=#{username}
     </select>

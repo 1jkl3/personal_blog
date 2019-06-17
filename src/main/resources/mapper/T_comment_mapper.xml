@@ -3,7 +3,28 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mapper.Review_Usermapper">
-    <insert id="SetReview" parameterType="com.pojo.T_comment">
-            insert into t_comment(t_name,t_img,t_text,t_time) values (#{t_name},#{t_img},#{t_text},#{t_time})
+    <insert id="SetReview" parameterType="com.pojo.T_comment" useGeneratedKeys="true" keyProperty="t_id">
+            insert into t_comment(t_name,t_img,t_text,t_time,t_browse,t_osname) values (#{t_name},#{t_img},#{t_text},#{t_time},#{t_browse},#{t_osname})
     </insert>
+    <select id="getListByT" resultMap="oneToMany">
+       SELECT * from t_comment t LEFT JOIN c_com c ON t.t_id=c.t_id
+    </select>
+    <resultMap id="oneToMany" type="com.pojo.T_comment">
+        <id column="t_id" property="t_id"/>
+        <result column="t_img" property="t_img"/>
+        <result column="t_name" property="t_name"/>
+        <result column="t_text" property="t_text"/>
+        <result column="t_time" property="t_time"/>
+        <result column="t_browse" property="t_browse"/>
+        <result column="t_osname" property="t_osname"/>
+        <collection property="cCom" javaType="java.util.ArrayList" ofType="com.pojo.C_com">
+            <id column="c_id" property="c_id"/>
+            <result column="c_time" property="c_time"/>
+            <result column="c_name" property="c_name"/>
+            <result column="c_text" property="c_text"/>
+            <result column="c_class" property="c_class"/>
+            <result column="t_id" property="t_id"/>
+            <result column="t_name" property="t_name"/>
+        </collection>
+    </resultMap>
 </mapper>

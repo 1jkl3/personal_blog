@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8" />
+    <title>发表文章</title>
+</head>
+<link rel="stylesheet" th:href="@{blog/layui/css/layui.css}" />
+<script type="text/javascript" th:src="@{blog/MySign_in/js/jquery-3.1.1.js}"></script>
+<script type="text/javascript" th:src="@{blog/layui/layui.js}"></script>
+<link rel="stylesheet" th:href="@{blog/myBlogs/css/Global_style.css}" />
+<link rel="stylesheet" th:href="@{blog/myBlogs/css/Article_me.css}" />
+
+<script th:inline="javascript">
+$(function () {
+    var e_type;
+    var e_img;//图片地址
+    function getNowDateFormat() {
+        var nowDate = new Date();
+        var year = nowDate.getFullYear();
+        var month = filterNum(nowDate.getMonth() + 1);
+        var day = filterNum(nowDate.getDate());
+        var hours = filterNum(nowDate.getHours());
+        var min = filterNum(nowDate.getMinutes());
+        var seconds = filterNum(nowDate.getSeconds());
+        return year + "-" + month + "-" + day + " " + hours + ":" + min + ":" + seconds;
+    }
+    function filterNum(num) {
+        if(num < 10) {
+            return "0" + num;
+        } else {
+            return num;
+        }
+    }
+    $("#interest").change(function () {
+        console.log($("#interest option:selected").text())
+        e_type=$("#interest option:selected").text();
+    });
+    layui.use(['carousel','layedit','upload'], function(){
+        var carousel = layui.carousel;
+        var layedit = layui.layedit;
+        var upload = layui.upload;
+        var uploadInst = upload.render({
+            elem: '#test1' //绑定元素
+            ,url: 'uploadMyimg' //上传接口
+            ,done: function(res){
+                layer.msg(res.msg)
+                e_img=res.url;
+            }
+            ,error: function(res){
+                layer.msg(res.msg)
+            }
+        });
+        layedit.set({
+            height:"700px",
+            uploadImage: {
+                url:"uploadflie",
+                type:"post"
+            }
+        })
+        var Mylayedit=layedit.build('demo');
+        $("#btn_send").on('click',function () {
+            if([[${session.name}]]==null){
+                alert("请登陆后编辑")
+            }else{
+                var e_time=getNowDateFormat();
+                var e_name=[[${session.name}]]
+                var e_html=layedit.getContent(Mylayedit)
+                var e_tit= $("input[name='title']").val()
+                var e_txt=layedit.getText(Mylayedit)
+                var essay={"e_name":e_name,"e_time":e_time,"e_html":e_html,"e_tit":e_tit,"e_img":e_img,"e_txt":e_txt,"e_type":e_type}
+                if(e_html==""&&e_tit==""&&e_txt==""&&e_type==null){
+                    layer.msg("内容不能为空")
+                } else{
+                    $.ajax({
+                        type:"post",
+                        url:"release",
+                        contentType:"application/json;charset=utf-8",
+                        data:JSON.stringify(essay),
+                        success:function (data) {
+                            if(data.msg){
+                                layer.msg("发表成功")
+                                console.log(data.essay)
+                            }else {
+                                layer.msg("发表失败")
+                            }
+                        },
+                        error:function () {
+                            layer.msg("发表失败")
+                        }
+                    })
+                }
+            }
+        })
+        carousel.render({
+            elem: '#test2'
+            ,width: '100%' //设置容器宽度
+            ,height:'100%'
+            ,arrow: 'always' //始终显示箭头
+        });
+    });
+})
+</script>
+<script>
+    $(function () {
+        //默认首页
+        $("#nav>ul>li:eq(2)>a").addClass("hander_a_b")
+        $(".active>ul>li:eq(0)>a").addClass("active_v_b")
+        //横向跳转其他界面接口
+        $(".hander_a").click(function () {
+            $(".hander_a").removeClass("hander_a_b")
+            $(this).addClass("hander_a_b")
+        })
+        $(".hander_a").hover(function () {
+            $(this).addClass("hander_a_a")
+        },function () {
+            $(this).removeClass("hander_a_a")
+        })
+        // 竖向跳转其他界面接口
+        $(".active_v").click(function () {
+            $(".active_v").removeClass("active_v_b")
+            $(this).addClass("active_v_b")
+        })
+        $(".active_v").hover(function () {
+            $(this).addClass("active_v_a")
+        },function () {
+            $(this).removeClass("active_v_a")
+        })
+    })
+</script>
+<!--下拉菜单-->
+<script>
+    $(function () {
+        $(".blog-dropdown").hover(function(){
+            $(this).children(".blog-dropdown-this").children().show()
+        },function(){
+            $(this).children(".blog-dropdown-this").children().hide()
+        })
+    })
+</script>
+<body>
+<header>
+    <div class="hhhand">
+        <a href="#"><img th:src="@{blog/myBlogs/img/MyLogo.png}" style="width: 140px;height: 100%;float: left;margin-left: 28px;"/></a>
+        <nav id="nav" style="float: left;">
+            <ul>
+                <li><a  href="login" class="hander_a">网站首页</a></li>
+                <li><a href="published" class="hander_a">发表留言</a></li>
+                <li><a href="article" class="hander_a">发表文章</a></li>
+                <li><a href="#" class="hander_a">相册</a></li>
+                <li><a href="#" class="hander_a">意见反馈</a></li>
+                <li><a href="#" class="hander_a">关于我们</a></li>
+                <li><a href="#" class="hander_a">联系我们</a></li>
+            </ul>
+            <div style="height: 100%;width: 218px;float: left;margin-left: 20px;" >
+                <input type="text" name="username" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="帅气的超人的博客" autocomplete="off" class="layui-input" style="height: 28px;margin-top: 8px;">
+            </div>
+            <a href="#" style="width: 26px;height: 25px;position: relative;right: 48px;top: 8px"><img  style="width: 26px;height: 25px;" th:src="@{blog/myBlogs/img/seek.png}"></a><!---->
+        </nav>
+        <div class="Writing_blog" style="position: relative;z-index: 999;">
+            <ul class="UL_on" >
+                <li id="li_on_1">
+                    <a href="#"><img th:src="@{blog/myBlogs/img/pen.png}" style="width: 20px; height: 16px;"/>写博客</a>
+                </li>
+                <li class="blog-dropdown">
+                    <a href="javascript:;" class="onColor" style="margin-left: 10px;"><img th:src="@{blog/myBlogs/img/envelope.png}" style="height: 16px;"/>消息</a>
+                    <ul class="blog-dropdown-this">
+                        <li><a href="#">回复</a></li>
+                        <li><a href="#">订阅</a></li>
+                        <li><a href="#">通知</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="loginandregist">
+            <a th:if="not ${#strings.isEmpty(session.name)}" th:text="欢迎用户" href="#"></a>
+            <a th:if="not ${#strings.isEmpty(session.name)}" th:text="${session.name}" href="#"></a>
+            <a th:if="${#strings.isEmpty(session.name)}" href="Mysign_in">登录/注册</a>
+        </div>
+    </div>
+</header>
+<div class="box">
+    <div class="active">
+        <ul>
+            <li><a href="#" class="active_v">1</a></li>
+            <li><a href="#" class="active_v">2</a></li>
+            <li><a href="#" class="active_v">3</a></li>
+            <li><a href="#" class="active_v">4</a></li>
+            <li><a href="#" class="active_v">5</a></li>
+            <li><a href="#" class="active_v">6</a></li>
+            <li><a href="#" class="active_v">7</a></li>
+            <li><a href="#" class="active_v">8</a></li>
+            <li><a href="#" class="active_v">9</a></li>
+            <li><a href="#" class="active_v">10</a></li>
+        </ul>
+    </div>
+    <div class="article-the">
+        <div class="article-hander">
+            <h3 style="text-align: center;margin-top: 5px"><b>发表文章</b></h3>
+            <div class="layui-form-item" style="margin-top: 15px">
+                <label class="layui-form-label" style="width: 40px;padding-right: 0px;">标题:</label>
+                <div class="layui-input-block" style="margin-left: 60px;">
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" style="width: 80%">
+                    <button class="layui-btn" id="btn_send" style="position: relative;left: 565px;bottom: 38px;">发表</button>
+                    <div class="uploadimgto">
+                        <span>上传标题图片:</span>
+                        <button type="button" class="layui-btn" id="test1">
+                            <i class="layui-icon">&#xe67c;</i>上传图片
+                        </button>
+                        <span>类型:</span>
+                            <select name="interest" id="interest" lay-filter="aihao">
+                                <option selected=""></option>
+                                <option>java</option>
+                                <option>Spring</option>
+                                <option>c++</option>
+                                <option>Springboot</option>
+                                <option>Springcloud</option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <textarea id="demo" style="display: none;background: red;"></textarea>
+    </div>
+    <div class="riqi" style="z-index: 10">
+        <div class="lunbo_smo" >
+            <div class="layui-carousel" id="test2">
+                <div carousel-item>
+                    <div><img th:src="@{blog/myBlogs/img/图片1.jpg}"/></div>
+                    <div><img th:src="@{blog/myBlogs/img/图片2.jpg}"/></div>
+                    <div><img th:src="@{blog/myBlogs/img/图片3.jpg}"/></div>
+                    <div><img th:src="@{blog/myBlogs/img/图片4.jpg}"/></div>
+                    <div><img th:src="@{blog/myBlogs/img/图片5.jpg}"/></div>
+                </div>
+            </div>
+        </div>
+        <div class="right_box">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 5px;margin-bottom: 5px;">
+                <legend><b style="font-size: 18px;">今日推荐</b></legend>
+            </fieldset>
+            <div class="right_box_box"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
