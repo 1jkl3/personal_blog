@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 public class Email_controller {
     @Autowired
@@ -77,5 +80,34 @@ public class Email_controller {
                 e.printStackTrace();
             }
     }
-
+    //忘记密码邮箱验证
+    @RequestMapping("code_Emal")
+    public Map code_Emal(@RequestParam("forget_emal") String forget_emal){
+        HashMap<String, Object> map = new HashMap<>();
+        String utils ="";
+        try {
+            utils = eUtils.emilUtils(forget_emal);
+            if(utils!=null&&!"".equals(utils)){
+                System.out.println(utils);
+                map.put("utils",utils);
+                return map;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("data",null);
+            return map;
+        }
+        map.put("data",null);
+        return map;
+    }
+    //修改密码
+    @RequestMapping("updatepass")
+    public boolean updatepass(@RequestParam("g_fpass")String g_fpass,@RequestParam("eamil")String eamil){
+        boolean byEmilNum = userService.setPassByEmil_num(g_fpass, eamil);
+        if(byEmilNum){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

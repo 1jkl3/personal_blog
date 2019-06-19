@@ -77,6 +77,7 @@ public class CommConntroller {
         }
         return map;
     }
+    //博客详情
     @RequestMapping("boke")
     public ModelAndView boke(@RequestParam("id") String id, ModelAndView modelAndView){
         Essay essay = e_essayService.getEssayById(id);

@@ -1367,3 +1367,93 @@ header .rt_nav li .quit_icon:before {
 .manage_sign_up dd{
 	color: #5cbdaa;
 }
+.password_f{
+	display: none;
+}
+.password_f dd{
+	color: #5cbdaa;
+}
+.password_f dd {
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+	color: #45bda6;
+	text-shadow: 0 0 1px #0e947a;
+	margin-bottom: 15px
+}
+.password_f dd.emal-for-pass:before {
+	content: "E"
+}
+.password_f dd.code_f:before {
+	content: "p"
+}
+.password_f dd .login_auth_coder {
+	font-size: 14px;
+	height: 26px;
+	line-height: 26px;
+	padding: 8px 5%;
+	width: 65%;
+	text-indent: 2em;
+	border: 0;
+	background: #5cbdaa;
+	color: white;
+	margin-left: -10px;
+}
+.password_f dd .login_txtbx_register {
+	font-size: 14px;
+	height: 26px;
+	line-height: 26px;
+	padding: 8px 5%;
+	width: 90%;
+	text-indent: 2em;
+	border: 0;
+	background: #5cbdaa;
+	color: #fff;
+}
+.password_f dd .regist_button_my{
+	width: 100%;
+	height: 42px;
+	border: 0;
+	font-size: 16px;
+	background: #048f74;
+	color: #f8f8f8
+}
+.g_pass dd .login_txtbx_register {
+	font-size: 14px;
+	height: 26px;
+	line-height: 26px;
+	padding: 8px 5%;
+	width: 90%;
+	text-indent: 2em;
+	border: 0;
+	background: #5cbdaa;
+	color: #fff;
+}
+.g_pass dd.user_register:before {
+	content: "u"
+}
+.g_pass dd.pwd_register:before {
+	content: "p"
+}
+.g_pass dd .regist_button_my{
+	width: 100%;
+	height: 42px;
+	border: 0;
+	font-size: 16px;
+	background: #048f74;
+	color: #f8f8f8
+}
+.g_pass{
+	display: none;
+}
+.g_pass dd{
+	color: #5cbdaa;
+}
+.g_pass dd {
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+	color: #45bda6;
+	text-shadow: 0 0 1px #0e947a;
+	margin-bottom: 15px
+}

@@ -128,6 +128,7 @@ public class MyController {
         }
         return "login::pageHelr";
     }
+    //管理员登陆
     @RequestMapping("manager_sginx")
     @ResponseBody
     public String manager_sginx(@RequestParam("m_user")String m_user,@RequestParam("m_pass") String m_pass,HttpSession session){
@@ -144,6 +145,7 @@ public class MyController {
             return msg;
         }
     }
+    //管理员页面
     @RequestMapping("manager_login")
     public String manager_login(){
         return "manager_login";

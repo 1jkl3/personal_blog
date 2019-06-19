@@ -33,4 +33,12 @@ public interface userService {
      * @return boolean
      */
     boolean setUserService(MyBlog_users myBlog_users);
+
+    /**
+     * 更新密码
+     * @param password
+     * @param emil_num
+     * @return
+     */
+    boolean setPassByEmil_num(String password,String emil_num);
 }

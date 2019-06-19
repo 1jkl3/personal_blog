@@ -2,6 +2,7 @@ package com.mapper;
 
 import com.pojo.MyBlog_users;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,4 +32,12 @@ public interface UserMapper {
      * @return MyBlog_users
      */
     int setUser(MyBlog_users myBlog_users);
+
+    /**
+     * 更新密码
+     * @param emil_num
+     * @return
+     */
+    @Update("update myblog_users set password=#{pass} where emil_num=#{emil_num}")
+    int setPassByEmil_num(@Param("pass")String password,@Param("emil_num") String emil_num);
 }

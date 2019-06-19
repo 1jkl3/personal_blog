@@ -24,6 +24,7 @@
     <script type="text/javascript" th:src="@{blog/MySign_in/js/demojs2.js}"></script>
     <script type="text/javascript" th:src="@{blog/MySign_in/js/demojs.js}"></script>
     <script type="text/javascript" th:src="@{blog/MySign_in/js/jquery.cookie.js}"></script>
+    <script type="text/javascript" th:src="@{blog/MySign_in/js/jquery.md5.js}"></script>
     <script>
         $(document).ready(function() {
             //粒子背景特效
@@ -37,7 +38,7 @@
             $("#pass_out").click(function () {
                 if($("#pass_out").prop("checked")){
                     $.cookie("name",$("input[name='username_login']").val(),{ expires: 7});
-                    $.cookie("pass",$("input[name='password_login']").val(),{ expires: 7});
+                    $.cookie("pass",$.md5($("input[name='password_login']").val()),{ expires: 7});
                 }
             })
             $("input[name='username_login']").val($.cookie("name"))
@@ -51,7 +52,7 @@
                             type: "post",
                             url: "login_in",
                             data: {"username":$("input[name='username_login']").val(),
-                                "password":$("input[name='password_login']").val()},
+                                "password":$.md5($("input[name='password_login']").val())},
                             success:function (data) {
                                 if(data=="登陆成功"){
                                     location.href="login"
@@ -97,7 +98,7 @@
             <input type="button" value="立即登陆" class="submit_btn" />
         </dd>
         <dd class="wangji">
-            <a href="#">忘记密码?</a>
+            <a href="#" id="to_password">忘记密码?</a>
             <a href="#" id="to_manage" style="margin-left: 50px">管理员登陆</a>
             <a href="#" id="to_register" style="margin-left: 50px;">用户注册</a>
         </dd>
@@ -143,8 +144,37 @@
             <a href="#" style="width: 50px; height: 40px;position: relative;left: -120px;top: 10px;"><img class="to_login" th:src="@{blog/MySign_in/img/tou1.png}" style="width: 50px; height: 40px;"/></a>
         </dd>
     </dl>
+    <dl class="password_f">
+        <dd class="emal-for-pass">
+            <input type="text" name="forget_emal" placeholder="邮箱" class="login_txtbx_register" />
+        </dd>
+        <dd class="code_f">
+            <input type="text" placeholder="请输入验证码" name="code_forget" class="login_auth_coder"/>
+            <button class="layui-btn layui-btn-radius" style="width: 70px;" id="forget">发送</button>
+        </dd>
+        <dd>
+            <input type="button" id="code_to" value="立即验证" class="regist_button_my" />
+        </dd>
+        <dd>
+            <a href="#" style="width: 50px; height: 40px;position: relative;left: -120px;top: 10px;"><img class="to_login" th:src="@{blog/MySign_in/img/tou1.png}" style="width: 50px; height: 40px;"/></a>
+        </dd>
+    </dl>
+    <dl class="g_pass">
+        <dd class="pwd_register">
+            <input type="password" name="g_fpass" placeholder="新密码" class="login_txtbx_register" />
+        </dd>
+        <dd class="pwd_register">
+            <input type="password" name="gs_fpass" placeholder="再次输入新密码" class="login_txtbx_register" />
+        </dd>
+        <dd>
+            <input type="button" id="forget_pass" value="立即修改" class="regist_button_my" />
+        </dd>
+        <dd>
+            <a href="#" style="width: 50px; height: 40px;position: relative;left: -120px;top: 10px;"><img class="to_login" th:src="@{blog/MySign_in/img/tou1.png}" style="width: 50px; height: 40px;"/></a>
+        </dd>
+    </dl>
 </dl>
-<script>
+<script th:inline="javascript">
     $(function(){
         $("#to_register").click(function(){
             $(".admin_regist").css("display","block");
@@ -154,10 +184,94 @@
             $(".manage_sign_up").css("display","block");
             $(".box_div").css("display","none")
         })
+        $("#to_password").click(function(){
+            $(".password_f").css("display","block");
+            $(".box_div").css("display","none")
+        })
         $(".to_login").click(function(){
             $(".admin_regist").css("display","none");
             $(".manage_sign_up").css("display","none");
+            $(".password_f").css("display","none");
+            $(".g_pass").css("display","none");
             $(".box_div").css("display","block")
+        })
+        //忘记密码接口
+        var code;
+        $("#code_to").click(function () {
+            if($("input[name='code_forget']").val().trim()==""||$("input[name='code_forget']").val().trim()==null){
+                layer.msg("验证码不能为空")
+            }else{
+                if(code==$("input[name='code_forget']").val()){
+                    $(".g_pass").css("display","block");
+                    $(".password_f").css("display","none");
+                }else{
+                    layer.msg("验证码错误")
+                }
+            }
+        })
+        //更新用户密码接口
+        $("#forget_pass").click(function () {
+            if($("input[name='g_fpass']").val().trim()==$("input[name='gs_fpass']").val().trim()){
+                var eamil=$("input[name='forget_emal']").val()
+                console.log(eamil)
+                console.log($.md5($("input[name='g_fpass']").val()))
+                $.ajax({
+                    type:"post",
+                    url:"updatepass",
+                    data:{"eamil":$("input[name='forget_emal']").val(),"g_fpass":$.md5($("input[name='g_fpass']").val())},
+                    success:function (data) {
+                        if(data)
+                            layer.msg("修改成功")
+                        else
+                            layer.msg("修改失败")
+                    },
+                    error:function (data) {
+                        if(data)
+                            layer.msg("错误")
+                        else
+                            layer.msg("错误")
+                    }
+                })
+            }else{
+                layer.msg("密码不一致")
+            }
+        })
+        //发送邮箱
+        var b=60;
+        var timeb;
+        $("#forget").click(function () {
+            var eaml_reg=/^\w+@qq+(\.[a-zA-Z]{2,3}){1,2}$/;
+            if($("input[name='forget_emal']").val().trim()==""||$("input[name='forget_emal']").val().trim()==null){
+                layer.msg("邮箱不能为空")
+            }else if(!eaml_reg.test($("input[name='forget_emal']").val().trim())){
+                layer.msg("邮箱格式错误")
+            }else{
+                $(this).attr("class","layui-btn layui-btn-disabled layui-btn-radius");
+                $(this).attr("disabled",true)
+                $.ajax({
+                    type:"post",
+                    url:"code_Emal",
+                    data:{"forget_emal":$("input[name='forget_emal']").val()},
+                    success:function (data) {
+                            code=data.utils;
+                            layer.msg("发送成功")
+                    },
+                    error:function (data) {
+                            layer.msg("发送失败")
+                    }
+                });
+                timeb=setInterval(function(){
+                    b--;
+                    $("#forget").text("发送"+b)
+                    if(b<=0){
+                        $("#forget").text("发送")
+                        $("#forget").attr("class","layui-btn layui-btn-radius");
+                        clearInterval(timeb)
+                        b=60
+                        $("#forget").attr("disabled",false)
+                    }
+                },1000);
+            }
         })
         //管理员登陆接口
         $("#manager_up").click(function () {
@@ -166,11 +280,12 @@
             }else if($("input[name='manage_pass']").val().trim()==""||$("input[name='manage_pass']").val().trim()==null){
                 layer.msg("密码不能为空")
             }else{
+                console.log($.md5($("input[name='manage_pass']").val()))
                 $.ajax({
                     type:"post",
                     url:"manager_sginx",
                     data:{"m_user":$("input[name='manage_ID']").val(),
-                        "m_pass":$("input[name='manage_pass']").val()},
+                        "m_pass":$.md5($("input[name='manage_pass']").val())},
                     success:function (data) {
                         if(data==0){
                             layer.msg("账号或密码错误")
@@ -209,7 +324,7 @@
                 layer.msg("手机号格式错误,请输入正确的号码格式")
             }else{
                 var MyBlog_users={"username": $("input[name='user_ID']").val(),
-                    "password":$("input[name='pass_ID']").val(),
+                    "password":$.md5($("input[name='pass_ID']").val()),
                     "emil_num":$("input[name='emil_up']").val(),
                     "phone":$("input[name='phone_num']").val(),
                     "code_ma":$("input[name='auth_code']").val()

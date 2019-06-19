@@ -61,4 +61,9 @@ public class userServiceImpl implements userService {
             return false;
         }
     }
+
+    @Override
+    public boolean setPassByEmil_num(String password, String emil_num) {
+        return userMapper.setPassByEmil_num(password, emil_num)>0?true:false;
+    }
 }

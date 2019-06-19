@@ -74,6 +74,11 @@
 			},function(){
 				$(this).children(".blog-dropdown-this").children().hide()
 			})
+			$(".go_to_login").hover(function () {
+				$(this).children(".go_to_login_in").children().show()
+			},function () {
+				$(this).children(".go_to_login_in").children().hide()
+			})
 		})
 	</script>
 	<body>
@@ -111,9 +116,18 @@
 				</ul>
 			</div>
 			<div class="loginandregist">
-				<a th:if="not ${#strings.isEmpty(session.name)}" th:text="欢迎用户" href="#"></a>
-				<a th:if="not ${#strings.isEmpty(session.name)}" th:text="${session.name}" href="#"></a>
-				<a th:if="${#strings.isEmpty(session.name)}" href="Mysign_in">登录/注册</a>
+				<ul class="ToSign">
+					<li class="go_to_login">
+						<span th:if="not ${#strings.isEmpty(session.name)}" th:text="欢迎用户"></span>
+						<a th:if="not ${#strings.isEmpty(session.name)}" th:text="${session.name}" href="#"></a>
+						<a th:if="${#strings.isEmpty(session.name)}" href="Mysign_in">登录/注册</a>
+						<ul class="go_to_login_in">
+							<li>
+								<a th:if="not ${#strings.isEmpty(session.name)}" href="outsgin_up">退出登陆</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</div>
 		</div>
 		</header>
