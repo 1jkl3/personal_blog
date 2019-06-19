@@ -10,20 +10,10 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">layui 后台布局</div>
+        <div class="layui-logo">博客后台管理系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="">控制台</a></li>
-            <li class="layui-nav-item"><a href="">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">用户</a></li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
-                </dl>
-            </li>
+            <li class="layui-nav-item"><a href="">博客后台</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
@@ -44,46 +34,93 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
+                    <a class="" href="javascript:;">文章管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a href="javascript:;">删除文章</a></dd>
+                        <dd><a href="javascript:;">增加文章</a></dd>
+                        <dd><a href="javascript:;">更改文章</a></dd>
+                        <dd><a href="javascript:;">查询文章</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
+                    <a href="javascript:;">用户信息</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a href="javascript:;">更改用户权限</a></dd>
+                        <dd><a href="javascript:;">查询用户信息</a></dd>
+                        <dd><a href="javascript:;">删除用户信息</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
             </ul>
         </div>
     </div>
 
     <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <div style="padding: 15px;">
-
-        </div>
+        <table class="layui-table" id="layui_table_id" lay-filter="test">
+        </table>
+        <div id="laypage"></div>
     </div>
-
     <div class="layui-footer">
         <!-- 底部固定区域 -->
         © layui.com - 底部固定区域
     </div>
 </div>
-<script>
-    //JavaScript代码区域
-    layui.use('element', function(){
+<script th:inline="javascript">
+    layui.use(['element'], function(){
         var element = layui.element;
-
-    });
+    })
+    var limitcountto=5;
+    var curnum=1;
+    function productsearch(start,limitsize){
+        layui.use(['element','table','laypage'], function(){
+            var table = layui.table,
+                laypage = layui.laypage ;
+            table.render({
+                elem: '#layui_table_id'
+                ,height: 312
+                ,limit:limitsize
+                ,page:start
+                ,url: 'table_Data'
+                ,page: false
+                ,cols: [[
+                    {field: 'e_id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                    ,{field: 'e_name', title: '用户名', width:80}
+                    ,{field: 'e_time', title: '时间', width:80, sort: true}
+                    ,{field: 'e_tit', title: '标题', width:80}
+                    ,{field: 'e_img', title: '图片', width:177}
+                    // ,{field: 'e_type', title: '类型', width: 80, sort: true}
+                ]]
+                ,done:function (res, curr, count) {
+                    console.log(222)
+                    laypage.render({
+                        elem:'laypage',
+                        count:count,
+                        curr:curnum,
+                        limit:limitcountto,
+                        layout:['prev', 'page', 'next', 'skip','count'],
+                        jump:function (obj) {
+                            console.log(111)
+                                curnum = obj.curr;
+                                limitcountto = obj.limit;
+                                productsearch(curnum,limitcountto);
+                        }
+                    })
+                }
+            });
+            table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                var data = obj.data //获得当前行数据
+                    ,layEvent = obj.event; //获得 lay-event 对应的值
+                if(layEvent === 'detail'){
+                    viewLableInfo(data.attrId);
+                    layer.msg(data.attrId);
+                } else if(layEvent === 'del'){
+                    layer.msg('删除');
+                } else if(layEvent === 'edit'){
+                    layer.msg('编辑操作');
+                }
+            });
+        });
+    }
+    productsearch(curnum,limitcountto);
 </script>
 </body>
 </html>
