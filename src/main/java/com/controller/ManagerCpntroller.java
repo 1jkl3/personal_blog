@@ -53,7 +53,7 @@ public class ManagerCpntroller {
         Map<String,Object> map=new HashMap<>();
             map.put("code", 0);
             map.put("msg","");
-            map.put("total",essay.getTotal());
+            map.put("count",essay.getTotal());
             map.put("data",list);
             return map;
     }

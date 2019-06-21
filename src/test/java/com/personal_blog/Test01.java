@@ -14,5 +14,12 @@ public class Test01 extends PersonalBlogApplicationTests {
         String path = ResourceUtils.getURL("classpath:").getPath();
         System.out.println(new File(path));
     }
+    @Test
+    public void t(){
+        String a="1";
+
+        Integer i=1;
+        Integer[] integer= {i};
+    }
 
 }
