@@ -24,7 +24,8 @@ public interface Essay_Usermapper {
      * 查询全部数据
      * @return
      */
-    List<Essay> getAllEssayLimit();
+    List<Essay> getAllEssayLimit(@Param("e_id")Integer e_id);
+
     @Select("select e_html from essay where e_id=#{id}")
     Essay getEssayById(@Param("id") String id);
 }

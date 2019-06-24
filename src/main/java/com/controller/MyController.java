@@ -87,7 +87,7 @@ public class MyController {
     public String login_in(HttpSession session){
         int page=1;
         int size=5;
-        PageInfo<Essay> essay = e_essayService.getAllEssay(page, size);
+        PageInfo<Essay> essay = e_essayService.getAllEssay(page, size,null);
         List<Essay> list = essay.getList();
         session.setAttribute("total",essay.getTotal());
         session.setAttribute("pageSize",essay.getPageSize());
@@ -110,7 +110,7 @@ public class MyController {
     //分页管理首页
     @RequestMapping("pagehelp_a")
     public String pagehelp_a(@RequestParam("page")int page,@RequestParam("pagesize") int pagesize,Model model){
-        PageInfo<Essay> essay = e_essayService.getAllEssay(page, pagesize);
+        PageInfo<Essay> essay = e_essayService.getAllEssay(page, pagesize,null);
         List<Essay> list = essay.getList();
         for(int i=0;i<list.size();i++){
             int length = list.get(i).getE_txt().length();
@@ -132,8 +132,6 @@ public class MyController {
     @RequestMapping("manager_sginx")
     @ResponseBody
     public String manager_sginx(@RequestParam("m_user")String m_user,@RequestParam("m_pass") String m_pass,HttpSession session){
-        System.out.println(m_user);
-        System.out.println(m_pass);
         String msg="";
         manager manager = managerService.getmanagerBynameAndPass_Service(m_user, m_pass);
         if(manager==null){

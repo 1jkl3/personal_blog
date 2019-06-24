@@ -21,7 +21,7 @@ public interface E_essayService {
      * 查询全部数据
      * @return
      */
-    PageInfo<Essay> getAllEssay(int page,int size);
+    PageInfo<Essay> getAllEssay(int page,int size,Integer e_id);
 
     /**
      *

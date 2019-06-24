@@ -8,5 +8,10 @@
     </insert>
     <select id="getAllEssayLimit" resultType="com.pojo.Essay">
         select * from essay
+        <where>
+            <if test="e_id!=null">
+                e_id=#{e_id}
+            </if>
+        </where>
     </select>
 </mapper>

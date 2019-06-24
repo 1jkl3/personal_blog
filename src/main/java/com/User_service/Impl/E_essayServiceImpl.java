@@ -29,9 +29,9 @@ public class E_essayServiceImpl implements E_essayService
     }
 
     @Override
-    public PageInfo<Essay> getAllEssay(int page,int size) {
+    public PageInfo<Essay> getAllEssay(int page,int size,Integer e_id) {
         PageHelper.startPage(page,size);
-        List<Essay> limit = essay_usermapper.getAllEssayLimit();
+        List<Essay> limit = essay_usermapper.getAllEssayLimit(e_id);
         if(limit!=null){
             PageInfo<Essay> pageInfo = new PageInfo<>(limit);
             return pageInfo;

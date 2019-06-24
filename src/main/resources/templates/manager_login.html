@@ -87,7 +87,9 @@
                 ,limit:5
                 ,id: 'testReload'
                 ,url: 'table_Data'
-                ,page: true
+                ,page: {
+                    layout: [ 'count', 'prev', 'page', 'next', 'skip']
+                }
                 ,cols: [[
                     {type:'checkbox',fixed: 'left'}
                     ,{field: 'e_id', title: 'ID', width:80, sort: true, fixed: 'left'}
@@ -124,15 +126,18 @@
                         ,where: {
                             key: {
                                 id: demoReload.val()
+                            },
+                            key:{
+                              name:demoReload.val()
                             }
                         }
-                    }, 'data');
-                }
-            };
-            $('.demoTable .layui-btn').on('click', function(){
-                var type = $(this).data('type');
-                active[type] ? active[type].call(this) : '';
-            });
+                }, 'data');
+    }
+    };
+    $('.demoTable .layui-btn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
         });
 </script>
 </body>

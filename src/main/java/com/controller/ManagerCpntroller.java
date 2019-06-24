@@ -4,6 +4,7 @@ import com.User_service.Impl.E_essayServiceImpl;
 import com.github.pagehelper.PageInfo;
 import com.pojo.Essay;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,11 +47,10 @@ public class ManagerCpntroller {
     }
     //表单数据
     @RequestMapping("table_Data")
-    public Map manager_login(@RequestParam("page")Integer start, @RequestParam("limit")Integer limitsize){
-        System.out.println("1213213");
-        PageInfo<Essay> essay = e_essayService.getAllEssay(start, limitsize);
-        List<Essay> list = essay.getList();
+    public Map manager_login(@RequestParam("page")Integer start, @RequestParam("limit")Integer limitsize,@RequestParam(value = "key[id]",required = false) Integer e_id){
         Map<String,Object> map=new HashMap<>();
+        PageInfo<Essay> essay = e_essayService.getAllEssay(start, limitsize,e_id);
+        List<Essay> list = essay.getList();
             map.put("code", 0);
             map.put("msg","");
             map.put("count",essay.getTotal());
