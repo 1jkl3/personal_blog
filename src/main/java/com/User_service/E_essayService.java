@@ -16,15 +16,26 @@ public interface E_essayService {
      * @return
      */
     boolean setEssay(Essay essay);
-
     /**
      * 查询全部数据
      * @return
      */
-    PageInfo<Essay> getAllEssay(int page,int size,Integer e_id);
+    PageInfo<Essay> getAllEssay(int page,int size,Long e_id);
 
     /**
-     *
+     *根据id查询数据
      */
-    Essay getEssayById(String id );
+    Essay getEssayById(Long id );
+    /**
+     * 根据id删除数据
+     * @param id
+     * @return
+     */
+    boolean delEssayservice(Long id);
+    /**
+     * 批量删除
+     * @param id
+     * @return
+     */
+    boolean delEssayAllService(List<Long> id);
 }

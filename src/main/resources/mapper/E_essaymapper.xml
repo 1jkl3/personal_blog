@@ -14,4 +14,10 @@
             </if>
         </where>
     </select>
+    <delete id="delEssayAll" parameterType="java.util.List">
+        delete from essay where in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

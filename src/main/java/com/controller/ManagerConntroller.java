@@ -22,7 +22,7 @@ import java.util.Map;
  * @Date 2019/6/18 - 10:53
  */
 @RestController
-public class ManagerCpntroller {
+public class ManagerConntroller {
     @Autowired
     E_essayServiceImpl e_essayService;
     //用户名
@@ -47,7 +47,7 @@ public class ManagerCpntroller {
     }
     //表单数据
     @RequestMapping("table_Data")
-    public Map manager_login(@RequestParam("page")Integer start, @RequestParam("limit")Integer limitsize,@RequestParam(value = "key[id]",required = false) Integer e_id){
+    public Map manager_login(@RequestParam("page")Integer start, @RequestParam("limit")Integer limitsize,@RequestParam(value = "key[id]",required = false) Long e_id){
         Map<String,Object> map=new HashMap<>();
         PageInfo<Essay> essay = e_essayService.getAllEssay(start, limitsize,e_id);
         List<Essay> list = essay.getList();
@@ -56,5 +56,9 @@ public class ManagerCpntroller {
             map.put("count",essay.getTotal());
             map.put("data",list);
             return map;
+    }
+    public @RequestMapping("deleteById") Map deleteById(){
+        Map<String,Object> map=new HashMap<>();
+        return map;
     }
 }

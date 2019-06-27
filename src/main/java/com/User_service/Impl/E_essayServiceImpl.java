@@ -27,9 +27,8 @@ public class E_essayServiceImpl implements E_essayService
         }
         return false;
     }
-
     @Override
-    public PageInfo<Essay> getAllEssay(int page,int size,Integer e_id) {
+    public PageInfo<Essay> getAllEssay(int page,int size,Long e_id) {
         PageHelper.startPage(page,size);
         List<Essay> limit = essay_usermapper.getAllEssayLimit(e_id);
         if(limit!=null){
@@ -39,9 +38,18 @@ public class E_essayServiceImpl implements E_essayService
             return null;
         }
     }
+    @Override
+    public Essay getEssayById(Long id) {
+        return essay_usermapper.getEssayById(id);
+    }
 
     @Override
-    public Essay getEssayById(String id) {
-        return essay_usermapper.getEssayById(id);
+    public boolean delEssayservice(Long id) {
+        return essay_usermapper.delEssayByid(id)!=1?true:false;
+    }
+
+    @Override
+    public boolean delEssayAllService(List<Long> id) {
+        return essay_usermapper.delEssayAll(id)!=1?true:false;
     }
 }
