@@ -15,7 +15,7 @@
         </where>
     </select>
     <delete id="delEssayAll" parameterType="java.util.List">
-        delete from essay where in
+        delete from essay where e_id in
         <foreach collection="list" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>

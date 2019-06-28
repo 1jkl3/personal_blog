@@ -22,7 +22,7 @@ public class E_essayServiceImpl implements E_essayService
     @Override
     public boolean setEssay(Essay essay) {
         int i = essay_usermapper.setEssayAll(essay);
-        if(i!=0){
+        if(i>=0){
             return true;
         }
         return false;
@@ -45,11 +45,11 @@ public class E_essayServiceImpl implements E_essayService
 
     @Override
     public boolean delEssayservice(Long id) {
-        return essay_usermapper.delEssayByid(id)!=1?true:false;
+        return essay_usermapper.delEssayByid(id)>=1?true:false;
     }
 
     @Override
     public boolean delEssayAllService(List<Long> id) {
-        return essay_usermapper.delEssayAll(id)!=1?true:false;
+        return essay_usermapper.delEssayAll(id)>=1?true:false;
     }
 }

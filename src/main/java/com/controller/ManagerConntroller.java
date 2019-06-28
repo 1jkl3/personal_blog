@@ -4,15 +4,13 @@ import com.User_service.Impl.E_essayServiceImpl;
 import com.github.pagehelper.PageInfo;
 import com.pojo.Essay;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +55,22 @@ public class ManagerConntroller {
             map.put("data",list);
             return map;
     }
-    public @RequestMapping("deleteById") Map deleteById(){
+    //删除
+    public @RequestMapping("deleteById") Map deleteById(@RequestParam("e_id")Long id){
         Map<String,Object> map=new HashMap<>();
+        boolean delById = e_essayService.delEssayservice(id);
+        map.put("code",delById);
+        return map;
+    }
+    //选中删除
+    public @RequestMapping(value = "checkStatus") Map deleteAll(@RequestParam("list[]") Long[] list){
+        Map<String,Object> map = new HashMap<>();
+        List<Long> longs = Arrays.asList(list);
+        for (Long aLong : longs) {
+            System.out.println(aLong);
+        }
+        boolean service = e_essayService.delEssayAllService(longs);
+        map.put("code",service);
         return map;
     }
 }

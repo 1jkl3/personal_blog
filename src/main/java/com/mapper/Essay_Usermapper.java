@@ -32,15 +32,15 @@ public interface Essay_Usermapper {
      * @param id
      * @return
      */
-    @Select("select e_html from essay where e_id=#{id}")
-    Essay getEssayById(@Param("id") Long id);
+    @Select("select e_html from essay where e_id=#{e_id}")
+    Essay getEssayById(@Param("e_id") Long id);
 
     /**
      * 根据id删除
      * @param id
      * @return
      */
-    @Delete("delete from essay e_id=#{e_id}")
+    @Delete("delete from essay where e_id=#{e_id}")
     int delEssayByid(@Param("e_id") Long id);
 
     /**

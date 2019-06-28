@@ -148,4 +148,10 @@ public class MyController {
     public String manager_login(){
         return "manager_login";
     }
+
+
+    @RequestMapping("roles")
+    public String somme(){
+        return "roles";
+    }
 }

@@ -22,5 +22,6 @@ public class myconfiguration implements WebMvcConfigurer {
 //            registry.addResourceHandler("/layui/**").addResourceLocations("classpath:/static/layui/");
 //            registry.addResourceHandler("/MySign_in/**").addResourceLocations("classpath:/static/MySign_in/");
             registry.addResourceHandler("/blog/**").addResourceLocations("classpath:/static/");
+            registry.addResourceHandler("/myhtml/**").addResourceLocations("classpath:/templates/");
     }
 }

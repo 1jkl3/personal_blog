@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>后端管理系统</title>
     <link rel="stylesheet" th:href="@{blog/layui/css/layui.css}" />
-    <script type="text/javascript" th:src="@{blog/MySign_in/js/jquery-3.1.1.js}"></script>
-    <script type="text/javascript" th:src="@{blog/layui/layui.js}"></script>
+<!--    <script type="text/javascript" th:src="@{blog/MySign_in/js/jquery-3.1.1.js}"></script>-->
+<!--    <script type="text/javascript" th:src="@{blog/layui/layui.js}"></script>-->
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -13,7 +13,7 @@
         <div class="layui-logo">博客后台管理系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="">博客后台</a></li>
+            <li class="layui-nav-item layui-this"><a href="">博客后台</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
@@ -34,98 +34,75 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">文章管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">删除文章</a></dd>
-                        <dd><a href="javascript:;">增加文章</a></dd>
-                        <dd><a href="javascript:;">更改文章</a></dd>
-                        <dd><a href="javascript:;">查询文章</a></dd>
-                    </dl>
+                    <a class="layui-this" href="javascript:;">文章管理</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">用户信息</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">更改用户权限</a></dd>
-                        <dd><a href="javascript:;">查询用户信息</a></dd>
-                        <dd><a href="javascript:;">删除用户信息</a></dd>
-                    </dl>
+                    <a href="roles">用户信息</a>
                 </li>
             </ul>
         </div>
     </div>
-
-    <div class="layui-body" th:fragment="Alltable">
-        <div class="demoTable">
-            搜索ID：
-            <div class="layui-inline">
-                <input class="layui-input" name="id" id="demoReload" autocomplete="off">
-            </div>
-            <button class="layui-btn" data-type="reload">搜索</button>
-        </div>
-        <table class="layui-table" id="layui_table_id" lay-filter="test">
-        </table>
-        <script type="text/html" id="barDemo">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-        </script>
-        <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-sm" lay-event="getCheckData">删除选中</button>
-                <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">添加文章</button>
-            </div>
-        </script>
+    <div class="layui-body">
+        <iframe th:replace="user/roles" style="width: 100%;height: 100%;"></iframe>
     </div>
-<!--    <div class="tableout" style="width: 500px">-->
-<!--        <form class="layui-form" action="" lay-filter="example">-->
-<!--            <div class="layui-form-item">-->
-<!--                <div class="layui-inline">-->
-<!--                    <label class="layui-form-label">用户名</label>-->
-<!--                    <div class="layui-input-inline">-->
-<!--                        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">-->
-<!--                    </div>-->
+<!--    <div class="layui-body" th:fragment="Alltable">-->
+<!--        <div class="demoTable">-->
+<!--            搜索ID：-->
+<!--            <div class="layui-inline">-->
+<!--                <input class="layui-input" name="id" id="demoReload" autocomplete="off">-->
+<!--            </div>-->
+<!--            <button class="layui-btn" data-type="reload">搜索</button>-->
+<!--        </div>-->
+<!--        <table class="layui-table" id="layui_table_id" lay-filter="test">-->
+<!--        </table>-->
+<!--        <script type="text/html" id="barDemo">-->
+<!--            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+<!--            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
+<!--        </script>-->
+<!--        <script type="text/html" id="toolbarDemo">-->
+<!--            <div class="layui-btn-container">-->
+<!--                <button class="layui-btn layui-btn-danger" lay-event="getCheckData">删除选中</button>-->
+<!--            </div>-->
+<!--        </script>-->
+<!--    </div>-->
+<!--    <div id="add-main" style="display: none;">-->
+<!--        <form class="layui-form" id="add-form" method="post" action="">-->
+<!--            <div class="layui-form-item center" >-->
+<!--                <label class="layui-form-label" style="width: 100px" >用户名&emsp;</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input type="text" name="name" required value="" style="width: 240px"  lay-verify="required" placeholder="请输入配置名称" autocomplete="off" class="layui-input">-->
 <!--                </div>-->
 <!--            </div>-->
 <!--            <div class="layui-form-item">-->
-<!--                <div class="layui-inline">-->
-<!--                    <label class="layui-form-label">时间</label>-->
-<!--                    <div class="layui-input-inline">-->
-<!--                        <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">-->
-<!--                    </div>-->
+<!--                <label class="layui-form-label" style="width: 100px">标题&emsp;</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input type="text" name="value" required  style="width: 240px" lay-verify="required" placeholder="请输入配置值" autocomplete="off" class="layui-input">-->
 <!--                </div>-->
 <!--            </div>-->
 <!--            <div class="layui-form-item">-->
-<!--                <div class="layui-inline">-->
-<!--                    <label class="layui-form-label">标题</label>-->
-<!--                    <div class="layui-input-inline">-->
-<!--                        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">-->
-<!--                    </div>-->
+<!--                <label class="layui-form-label" style="width: 100px">图片地址&emsp;</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input type="text" name="value" required  style="width: 240px" lay-verify="required" placeholder="请输入配置值" autocomplete="off" class="layui-input">-->
 <!--                </div>-->
 <!--            </div>-->
 <!--            <div class="layui-form-item">-->
-<!--                <div class="layui-inline">-->
-<!--                    <label class="layui-form-label">图片</label>-->
-<!--                    <div class="layui-input-inline">-->
-<!--                        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">-->
-<!--                    </div>-->
+<!--                <label class="layui-form-label" style="width: 100px">类型&emsp;</label>-->
+<!--                <div class="layui-input-inline">-->
+<!--                    <select name="interest" lay-filter="aihao">-->
+<!--                        <option value="">请选择</option>-->
+<!--                        <option value="0">c++</option>-->
+<!--                        <option value="1">java</option>-->
+<!--                        <option value="2">Spring</option>-->
+<!--                        <option value="3">Springboot</option>-->
+<!--                        <option value="4">Springcloud</option>-->
+<!--                    </select>-->
 <!--                </div>-->
 <!--            </div>-->
 <!--            <div class="layui-form-item">-->
-<!--                <div class="layui-inline">-->
-<!--                    <label class="layui-form-label">搜索选择框</label>-->
-<!--                    <div class="layui-input-inline">-->
-<!--                        <select name="modules" lay-verify="required" lay-search="">-->
-<!--                            <option value="">直接选择或搜索选择</option>-->
-<!--                            <option value="1">Spring</option>-->
-<!--                            <option value="2">Springboot</option>-->
-<!--                            <option value="3">java</option>-->
-<!--                            <option value="4">c++</option>-->
-<!--                            <option value="5">Springcloud</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <button class="layui-btn" lay-submit="" lay-filter="save" >立即提交</button>-->
+<!--                    <button type="reset" class="layui-btn layui-btn-primary" id="closeBtn" >重置</button>-->
 <!--                </div>-->
-<!--            </div>-->
-<!--            <div class="layui-form-item">-->
-<!--                <button class="layui-btn" lay-submit="" lay-filter="demo2">跳转式提交</button>-->
 <!--            </div>-->
 <!--        </form>-->
 <!--    </div>-->
@@ -134,98 +111,153 @@
         © mybolg.com - 底部固定区域
     </div>
 </div>
-<script th:inline="javascript">
-    layui.use(['element'], function(){
-        var element = layui.element;
-    })
-        layui.use(['element','table','form','layer','laydate'], function(){
-            var table = layui.table,
-                form=layui.form,
-                layer=layui.layer,
-                laydate=layui.laydate;
-            laydate.render({
-                elem: '#date'
-            });
-            laydate.render({
-                elem: '#date1'
-            });
-            table.render({
-                elem: '#layui_table_id'
-                ,height: 490
-                ,limit:10
-                ,toolbar: '#toolbarDemo'
-                ,id: 'testReload'
-                ,url: 'table_Data'
-                ,page: {
-                    layout: [ 'count', 'prev', 'page', 'next', 'skip']
-                }
-                ,cols: [[
-                    {type:'checkbox',fixed: 'left'}
-                    ,{field: 'e_id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                    ,{field: 'e_name', title: '用户名', width:80}
-                    ,{field: 'e_time', title: '时间', width:180, sort: true}
-                    ,{field: 'e_tit', title: '标题', width:130}
-                    ,{field: 'e_img', title: '图片', width:200}
-                    // ,{field: 'e_type', title: '类型', width:177, sort: true}
-                    ,{field: 'e_type', title: '类型', width: 100, sort: true}
-                    ,{fixed: 'right', width:178,title:'操作' , align:'center', toolbar: '#barDemo'}
-                ]]
-            });
-            table.on('toolbar(test)', function(obj){
-                var checkStatus = table.checkStatus(obj.config.id);
-                if(obj.event==='getCheckData'){
-                    layer.confirm('真的删除选中么', function(index){
-                        console.log(checkStatus.data)
-                        layer.close(index);
-                    });
-                }else if(obj.event==='getCheckLength'){
-                    form.on('submit(demo2)',function (data) {
+<!--<script th:inline="javascript">-->
 
-                    })
-                }
-            });
-            table.on('tool(test)', function(obj){
-                var data = obj.data;
-                if(obj.event === 'del'){
-                    console.log(JSON.stringify(data))
-                    layer.confirm('真的删除行么', function(index){
-                        $.ajax({
-                            type:"post",
-                            url:"",
+<!--    layui.use(['element'], function(){-->
+<!--        var element = layui.element;-->
 
-                        })
-                        obj.del();
-                        layer.close(index);
-                    });
-                } else if(obj.event === 'edit'){
-                    // layer.alert('编辑行：<br>'+ JSON.stringify(data))
+<!--    })-->
+<!--        layui.use(['element','table','form','layer','laydate'], function(){-->
+<!--            var table = layui.table,-->
+<!--                form=layui.form,-->
+<!--                layer=layui.layer,-->
+<!--                laydate=layui.laydate;-->
+<!--            //时间-->
+<!--            function getNowDateFormat() {-->
+<!--                var nowDate = new Date();-->
+<!--                var year = nowDate.getFullYear();-->
+<!--                var month = filterNum(nowDate.getMonth() + 1);-->
+<!--                var day = filterNum(nowDate.getDate());-->
+<!--                var hours = filterNum(nowDate.getHours());-->
+<!--                var min = filterNum(nowDate.getMinutes());-->
+<!--                var seconds = filterNum(nowDate.getSeconds());-->
+<!--                return year + "-" + month + "-" + day + " " + hours + ":" + min + ":" + seconds;-->
+<!--            }-->
+<!--            function filterNum(num) {-->
+<!--                if(num < 10) {-->
+<!--                    return "0" + num;-->
+<!--                } else {-->
+<!--                    return num;-->
+<!--                }-->
+<!--            }-->
+<!--            table.render({-->
+<!--                elem: '#layui_table_id'-->
+<!--                ,height: 490-->
+<!--                ,limit:10-->
+<!--                ,toolbar: '#toolbarDemo'-->
+<!--                ,id: 'testReload'-->
+<!--                ,url: 'table_Data'-->
+<!--                ,page: {-->
+<!--                    layout: [ 'count', 'prev', 'page', 'next', 'skip']-->
+<!--                }-->
+<!--                ,cols: [[-->
+<!--                    {type:'checkbox',fixed: 'left'}-->
+<!--                    ,{field: 'e_id', title: 'ID', width:80, sort: true, fixed: 'left'}-->
+<!--                    ,{field: 'e_name', title: '用户名', width:80}-->
+<!--                    ,{field: 'e_time', title: '时间', width:180, sort: true}-->
+<!--                    ,{field: 'e_tit', title: '标题', width:130}-->
+<!--                    ,{field: 'e_img', title: '图片', width:200}-->
+<!--                    // ,{field: 'e_type', title: '类型', width:177, sort: true}-->
+<!--                    ,{field: 'e_type', title: '类型', width: 100, sort: true}-->
+<!--                    ,{fixed: 'right', width:178,title:'操作' , align:'center', toolbar: '#barDemo'}-->
+<!--                ]]-->
 
-                }
-            });
-            var $ = layui.$, active = {
-                reload: function(){
-                    var demoReload = $('#demoReload');
-                    //执行重载
-                    table.reload('testReload', {
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                        ,where: {
-                            key: {
-                                id: demoReload.val()
-                            },
-                            key:{
-                              name:demoReload.val()
-                            }
-                        }
-                }, 'data');
-    }
-    };
-    $('.demoTable .layui-btn').on('click', function(){
-        var type = $(this).data('type');
-        active[type] ? active[type].call(this) : '';
-    });
-        });
-</script>
+<!--            });-->
+<!--            //删除选中-->
+<!--            table.on('toolbar(test)', function(obj){-->
+<!--                var checkStatus = table.checkStatus(obj.config.id);-->
+<!--                if(obj.event==='getCheckData'){-->
+<!--                    if(checkStatus.data.length<=0){-->
+<!--                        layer.msg("删除失败，没有选项")-->
+<!--                    }else{-->
+<!--                        layer.confirm('真的删除选中么', function(index){-->
+<!--                            // console.log(checkStatus.data)-->
+<!--                            var checkout=checkStatus.data;-->
+<!--                            var myid=[];-->
+<!--                            for(var i=0;i<checkout.length;i++){-->
+<!--                                myid.push(checkout[i].e_id)-->
+<!--                            }-->
+<!--                            $.ajax({-->
+<!--                                url:"checkStatus",-->
+<!--                                type:"post",-->
+<!--                                data:{"list":myid},-->
+<!--                                success:function (data) {-->
+<!--                                    console.log(data.code)-->
+<!--                                    if(data.code){-->
+<!--                                        location.href="manager_login";-->
+<!--                                        layer.msg("删除成功")-->
+<!--                                    }-->
+<!--                                },-->
+<!--                                error:function () {-->
+<!--                                    layer.msg("操作失败")-->
+<!--                                }-->
+<!--                            })-->
+<!--                            layer.close(index);-->
+<!--                        });-->
+<!--                    }-->
+<!--                }-->
+<!--            });-->
+<!--            //删除编辑单个-->
+<!--            table.on('tool(test)', function(obj){-->
+<!--                var data = obj.data;-->
+<!--                if(obj.event === 'del'){-->
+<!--                    layer.confirm('真的删除行么', function(index){-->
+<!--                        $.ajax({-->
+<!--                            type:"post",-->
+<!--                            url:"deleteById",-->
+<!--                            data:{"e_id":data.e_id},-->
+<!--                            success:function (data) {-->
+<!--                                if(data){-->
+<!--                                    layer.msg("删除成功")-->
+<!--                                }else{-->
+<!--                                    layer.msg("删除失败")-->
+<!--                                }-->
+<!--                            },-->
+<!--                            error:function () {-->
+<!--                                layer.msg("操作失败")-->
+<!--                            }-->
+<!--                        })-->
+<!--                        obj.del();-->
+<!--                        layer.close(index);-->
+<!--                    });-->
+<!--                } else if(obj.event === 'edit'){-->
+<!--                    // layer.alert('编辑行：<br>'+ JSON.stringify(data))-->
+<!--                    layer.open({-->
+<!--                        type: 1,-->
+<!--                        title:"新建文章",-->
+<!--                        closeBtn: false,-->
+<!--                        shift: 2,-->
+<!--                        area: ['450px', '350px'],-->
+<!--                        shadeClose: true,-->
+<!--                        btnAlign: 'c',-->
+<!--                        content: $("#add-main")-->
+<!--                    });-->
+<!--                    form.on('submit(save)',function (data) {-->
+<!--                        console.log(data)-->
+<!--                    })-->
+<!--                }-->
+<!--            });-->
+<!--            var $ = layui.$, active = {-->
+<!--                reload: function(){-->
+<!--                    var demoReload = $('#demoReload');-->
+<!--                    //执行重载-->
+<!--                    table.reload('testReload', {-->
+<!--                        page: {-->
+<!--                            curr: 1 //重新从第 1 页开始-->
+<!--                        }-->
+<!--                        ,where: {-->
+<!--                            key: {-->
+<!--                                id: demoReload.val()-->
+<!--                            }-->
+<!--                        }-->
+<!--                }, 'data');-->
+<!--    }-->
+<!--    };-->
+<!--    $('.demoTable .layui-btn').on('click', function(){-->
+<!--        var type = $(this).data('type');-->
+<!--        active[type] ? active[type].call(this) : '';-->
+<!--    });-->
+<!--        });-->
+<!--</script>-->
 </body>
 </html>
